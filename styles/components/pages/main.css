@@ -1,0 +1,26 @@
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.image-sunmain-rigth {
+  padding-top: 10%;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  /* margin-left: auto; */
+  /* margin-right: 30px; */
+  width: 65%;
+}
+
+.image-sunmain-left {
+  padding-top: 10%;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  /* margin-left: auto; */
+  /* margin-right: 30px; */
+  width: 65%;
+}
