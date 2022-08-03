@@ -1,9 +1,9 @@
-import { alpha } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles'
 
 // ----------------------------------------------------------------------
 
 function createGradient(color1, color2) {
-  return `linear-gradient(to bottom, ${color1}, ${color2})`;
+  return `linear-gradient(to bottom, ${color1}, ${color2})`
 }
 
 // SETUP COLORS
@@ -25,8 +25,8 @@ const GREY = {
   500_32: alpha('#919EAB', 0.32),
   500_48: alpha('#919EAB', 0.48),
   500_56: alpha('#919EAB', 0.56),
-  500_80: alpha('#919EAB', 0.8),
-};
+  500_80: alpha('#919EAB', 0.8)
+}
 
 const PRIMARY = {
   lighter: '#D1E9FC',
@@ -34,8 +34,8 @@ const PRIMARY = {
   main: '#2065D1',
   dark: '#103996',
   darker: '#061B64',
-  contrastText: '#fff',
-};
+  contrastText: '#fff'
+}
 
 const SECONDARY = {
   lighter: '#D6E4FF',
@@ -43,8 +43,8 @@ const SECONDARY = {
   main: '#3366FF',
   dark: '#1939B7',
   darker: '#091A7A',
-  contrastText: '#fff',
-};
+  contrastText: '#fff'
+}
 
 const INFO = {
   lighter: '#D0F2FF',
@@ -52,8 +52,8 @@ const INFO = {
   main: '#1890FF',
   dark: '#0C53B7',
   darker: '#04297A',
-  contrastText: '#fff',
-};
+  contrastText: '#fff'
+}
 
 const SUCCESS = {
   lighter: '#E9FCD4',
@@ -61,8 +61,8 @@ const SUCCESS = {
   main: '#54D62C',
   dark: '#229A16',
   darker: '#08660D',
-  contrastText: GREY[800],
-};
+  contrastText: GREY[800]
+}
 
 const WARNING = {
   lighter: '#FFF7CD',
@@ -70,8 +70,8 @@ const WARNING = {
   main: '#FFC107',
   dark: '#B78103',
   darker: '#7A4F01',
-  contrastText: GREY[800],
-};
+  contrastText: GREY[800]
+}
 
 const ERROR = {
   lighter: '#FFE7D9',
@@ -79,24 +79,24 @@ const ERROR = {
   main: '#FF4842',
   dark: '#B72136',
   darker: '#7A0C2E',
-  contrastText: '#fff',
-};
+  contrastText: '#fff'
+}
 
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
   info: createGradient(INFO.light, INFO.main),
   success: createGradient(SUCCESS.light, SUCCESS.main),
   warning: createGradient(WARNING.light, WARNING.main),
-  error: createGradient(ERROR.light, ERROR.main),
-};
+  error: createGradient(ERROR.light, ERROR.main)
+}
 
 const CHART_COLORS = {
   violet: ['#826AF9', '#9E86FF', '#D0AEFF', '#F7D2FF'],
   blue: ['#2D99FF', '#83CFFF', '#A5F3FF', '#CCFAFF'],
   green: ['#2CD9C5', '#60F1C8', '#A4F7CC', '#C0F2DC'],
   yellow: ['#FFE700', '#FFEF5A', '#FFF7AE', '#FFF3D6'],
-  red: ['#FF6C40', '#FF8F6D', '#FFBD98', '#FFF2D4'],
-};
+  red: ['#FF6C40', '#FF8F6D', '#FFBD98', '#FFF2D4']
+}
 
 const palette = {
   common: { black: '#000', white: '#fff' },
@@ -120,8 +120,8 @@ const palette = {
     disabledBackground: GREY[500_24],
     focus: GREY[500_24],
     hoverOpacity: 0.08,
-    disabledOpacity: 0.48,
-  },
-};
+    disabledOpacity: 0.48
+  }
+}
 
-export default palette;
+export default palette

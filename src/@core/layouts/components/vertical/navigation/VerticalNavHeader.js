@@ -7,7 +7,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 
 // ** Configs
-import themeConfig from 'src/configs/themeConfig'
+import themeConfig from '../../../../../configs/themeConfig'
 
 // ** Styled Components
 const MenuHeaderWrapper = styled(Box)(({ theme }) => ({
