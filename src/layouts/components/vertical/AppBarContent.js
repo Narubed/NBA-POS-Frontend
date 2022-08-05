@@ -10,7 +10,7 @@ import Menu from 'mdi-material-ui/Menu'
 import Magnify from 'mdi-material-ui/Magnify'
 
 // ** Components
-// import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
+import ModeToggler from '../../../@core/layouts/components/shared-components/ModeToggler'
 import UserDropdown from '../../../@core/layouts/components/shared-components/UserDropdown'
 
 // import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
@@ -46,8 +46,8 @@ const AppBarContent = props => {
           }}
         />
       </Box>
-      {/* <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
-        {hiddenSm ? null : (
+      <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
+        {/*  {hiddenSm ? null : (
           <Box
             component='a'
             target='_blank'
@@ -62,10 +62,10 @@ const AppBarContent = props => {
             />
           </Box>
         )} */}
-      {/* <ModeToggler settings={settings} saveSettings={saveSettings} /> */}
-      {/* <NotificationDropdown /> */}
-      <UserDropdown />
-      {/* </Box> */}
+        <ModeToggler settings={settings} saveSettings={saveSettings} />
+        {/* <NotificationDropdown /> */}
+        <UserDropdown />
+      </Box>
     </Box>
   )
 }

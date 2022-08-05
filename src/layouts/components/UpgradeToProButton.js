@@ -43,19 +43,19 @@ const BuyNowButton = () => {
         onMouseEnter={handleOpen}
         onMouseLeave={handleClose}
         ref={e => setReferenceElement(e)}
-        href='https://themeselection.com/products/materio-mui-react-nextjs-admin-template/'
+        href='https://nbadigitalservice.com/'
         sx={{
-          backgroundColor: '#ff3e1d',
-          boxShadow: '0 1px 20px 1px #ff3e1d',
+          backgroundColor: '#8A2BE2',
+          boxShadow: '0 1px 20px 1px #8A2BE2',
           '&:hover': {
             boxShadow: 'none',
-            backgroundColor: '#e6381a'
+            backgroundColor: '#9400D3'
           }
         }}
       >
-        Upgrade To Pro
+        NBA Digital Service Center
       </Button>
-      <Fade in={open} timeout={700}>
+      <Fade in={open} timeout={400}>
         <Box
           style={styles.popper}
           ref={setPopperElement}
@@ -65,25 +65,15 @@ const BuyNowButton = () => {
           sx={{ pb: 4, minWidth: theme => (theme.breakpoints.down('sm') ? 400 : 300) }}
         >
           <Paper elevation={9} sx={{ borderRadius: 1, overflow: 'hidden' }}>
-            <a
-              target='_blank'
-              rel='noreferrer'
-              href='https://themeselection.com/products/materio-mui-react-nextjs-admin-template/'
-            >
-              <img width='100%' alt='materio-pro-banner' src='/images/misc/materio-pro-banner.png' />
-            </a>
             <CardContent>
               <Typography sx={{ mb: 4 }} variant='h6'>
-                Materio - React Admin Template
+                บริษัทเอ็นบีเอ ดิจิตอล เซอร์วิส เซ็นเตอร์
               </Typography>
               <Typography sx={{ mb: 4 }} variant='body2'>
-                Materio Admin is the most developer friendly & highly customizable Admin Dashboard Template based on MUI
-                and NextJS.
+                ยินดีต้อนรับสู่ ระบบจัดการหน้าร้านของ บริษัทเอ็นบีเอ ดิจิตอล เซอร์วิส เซ็นเตอร์ หากมีข้อสงสัยหรือ
+                ต้องการติดด่วนสามารถติดต่อได้ที่นี้เลย !!
               </Typography>
-              <Typography sx={{ mb: 4 }} variant='body2'>
-                Click on below buttons to explore PRO version.
-              </Typography>
-              <Button
+              {/* <Button
                 component='a'
                 sx={{ mr: 4 }}
                 target='_blank'
@@ -99,7 +89,7 @@ const BuyNowButton = () => {
                 href='https://themeselection.com/products/materio-mui-react-nextjs-admin-template/'
               >
                 Download
-              </Button>
+              </Button> */}
             </CardContent>
           </Paper>
         </Box>

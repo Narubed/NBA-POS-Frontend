@@ -3,7 +3,7 @@ import React from 'react'
 
 import { Grid, Container } from '@mui/material'
 
-import bgImage from '../../../assets/images/Background/bgsub.jpg'
+import bgImage from '../../../../public/images/Background/bgsub.jpg'
 
 const buttonImage1 = 'https://www.nbadigitalservice.com/static/media/web-platform_0.6dc73100.png'
 const buttonImage2 = 'https://www.nbadigitalservice.com/static/media/web-jump_0.0323920d.png'

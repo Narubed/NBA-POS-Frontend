@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useFormik, Form, FormikProvider } from 'formik'
 import * as yup from 'yup'
 import { Icon } from '@iconify/react'
-import { signIn, getCsrfToken } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -34,8 +34,8 @@ const FormLogin = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: 'karn.yong@mecallapi.com',
-      password: 'mecallapi'
+      email: '',
+      password: ''
     },
     validationSchema: LoginSchema,
     onSubmit: async values => {

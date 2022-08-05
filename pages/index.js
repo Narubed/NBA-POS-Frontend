@@ -4,7 +4,7 @@ import Dashboard from '../src/components/pages/dashboard'
 
 export default function Component() {
   const { data: session } = useSession()
-  console.log(process.env.NEXT_PUBLIC_ANALYTICS_ID)
+  console.log(session)
   if (!session) {
     return (
       <>
@@ -12,13 +12,13 @@ export default function Component() {
         {/* <button onClick={() => signIn()}>Sign in</button> */}
       </>
     )
+  } else {
+    return (
+      <>
+        {/* Signed in as {session.user.email} <br /> */}
+        {/* <button onClick={() => signOut()}>Sign out</button> */}
+        <Dashboard />
+      </>
+    )
   }
-
-  return (
-    <>
-      {/* Signed in as {session.user.email} <br /> */}
-      <button onClick={() => signOut()}>Sign out</button>
-      <Dashboard />
-    </>
-  )
 }

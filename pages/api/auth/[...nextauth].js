@@ -27,12 +27,11 @@ export default NextAuth({
       },
       async authorize(credentials, req) {
         const payload = {
-          username: credentials.email,
+          email: credentials.email,
           password: credentials.password
         }
-        console.log(payload)
 
-        const res = await fetch('https://www.mecallapi.com/api/login', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_POS_BACKEND}/signin`, {
           method: 'POST',
           body: JSON.stringify(payload),
           headers: {
@@ -42,8 +41,13 @@ export default NextAuth({
           }
         })
         const data = await res.json()
+        console.log(data)
         if (data.status == 'ok') {
-          return data.user
+          if (data.user.status === false) {
+            return null
+          } else {
+            return data.user
+          }
         }
 
         return null
@@ -53,11 +57,12 @@ export default NextAuth({
   secret: 'LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx5mLg=',
 
   pages: {
-    signIn: "/signin",
+    signIn: '/signin'
   },
   callbacks: {
     async jwt({ token, account, user }) {
       console.log('user=>', user)
+
       if (account) {
         token.accessToken = account.access_token
         token.user = user
