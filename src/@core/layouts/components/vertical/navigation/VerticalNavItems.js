@@ -1,11 +1,15 @@
 // ** Custom Menu Components
 import VerticalNavLink from './VerticalNavLink'
 import VerticalNavSectionTitle from './VerticalNavSectionTitle'
+import VerticalNavGroupItem from './VerticalNavGroupItem'
 
 const resolveNavItemComponent = item => {
   if (item.sectionTitle) return VerticalNavSectionTitle
-
-  return VerticalNavLink
+  if (item.groupActive) {
+    return VerticalNavGroupItem
+  } else {
+    return VerticalNavLink
+  }
 }
 
 const VerticalNavItems = props => {

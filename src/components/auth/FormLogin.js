@@ -68,20 +68,23 @@ const FormLogin = () => {
           <Stack spacing={3} sx={{ mb: 3 }}>
             {error ? <Alert severity='error'>email หรือ password ผิด — กรุณาเช็คความถูกต้อง!</Alert> : null}
             <TextField
+              color='warning'
+              sx={{ input: { color: '#FFFFFF' } }}
               fullWidth
               autoComplete='username'
               type='email'
-              label='Email'
+              label={<a style={{ color: '#FFFFFF' }}>Email</a>}
               {...getFieldProps('email')}
               error={Boolean(touched.email && errors.email)}
               helperText={touched.email && errors.email}
             />
 
             <TextField
+              sx={{ input: { color: '#FFFFFF' } }}
               fullWidth
               autoComplete='current-password'
               type={showPassword ? 'text' : 'password'}
-              label='Password'
+              label={<a style={{ color: '#FFFFFF' }}>Password</a>}
               {...getFieldProps('password')}
               InputProps={{
                 endAdornment: (
@@ -104,7 +107,7 @@ const FormLogin = () => {
             />
           </Stack> */}
 
-          <Button fullWidth size='large' type='submit' variant='contained' loading={isSubmitting}>
+          <Button fullWidth size='large' type='submit' variant='contained'>
             เข้าสู่ระบบ
           </Button>
         </Form>

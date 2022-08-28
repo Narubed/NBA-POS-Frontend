@@ -55,6 +55,11 @@ export default NextAuth({
     })
   ],
   secret: 'LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx5mLg=',
+  session: {
+    jwt: true,
+    maxAge: 5 * 60 * 60 // 5 seconds
+    // updateAge: 24 * 60 * 60, // 24 hours
+  },
 
   pages: {
     signIn: '/signin'
@@ -70,16 +75,19 @@ export default NextAuth({
 
       return token
     },
-    async session({ session, token, user }) {
+    async session({ session, token, user, maxAge }) {
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.accessToken
       session.user = token.user
+      console.log(session)
+      console.log(Date.now())
 
       return session
     }
   },
+
   theme: {
-    colorScheme: 'auto', // "auto" | "dark" | "light"
+    colorScheme: 'dark', // "auto" | "dark" | "light"
     brandColor: '', // Hex color code #33FF5D
     logo: '/vercel.svg' // Absolute URL to image
   },

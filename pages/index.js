@@ -1,10 +1,11 @@
 import { useSession, signIn, signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import Main from '../src/components/auth/pages/main'
 import Dashboard from '../src/components/pages/dashboard'
 
 export default function Component() {
+  const router = useRouter()
   const { data: session } = useSession()
-  console.log(session)
   if (!session) {
     return (
       <>
@@ -13,6 +14,12 @@ export default function Component() {
       </>
     )
   } else {
+    console.log(session)
+    const getLocalStorageBranch = localStorage.getItem('branch')
+    if (!getLocalStorageBranch) {
+      localStorage.setItem('branch', session.user.branch)
+    }
+
     return (
       <>
         {/* Signed in as {session.user.email} <br /> */}

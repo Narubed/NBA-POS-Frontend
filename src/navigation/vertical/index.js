@@ -9,6 +9,7 @@ import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
 import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
 import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
+import ArrowDownCircle from 'mdi-material-ui/ArrowDownCircle'
 
 const navigation = () => {
   return [
@@ -17,11 +18,61 @@ const navigation = () => {
       icon: HomeOutline,
       path: '/'
     },
-
     {
-      title: 'รายงาน',
+      sectionTitle: 'รายงาน'
+    },
+    {
+      title: 'แดชบอร์ด',
+      icon: AccountCogOutline,
+      path: '/report/dashboard'
+    },
+    {
+      title: 'ประวัติการขาย',
       icon: AccountCogOutline,
       path: '/report'
+    },
+    {
+      title: 'ใบกำกับภาษี(เต็ม)',
+      icon: AccountCogOutline,
+      path: '/report/invoice/full'
+    },
+
+    {
+      sectionTitle: 'จัดการข้อมูลสินค้า'
+    },
+
+    {
+      title: 'สินค้า',
+      groupActive: [
+        {
+          title: 'สต๊อกสินค้า',
+          icon: AccountCogOutline,
+          path: '/stock/product'
+        },
+        {
+          title: 'ประวัติสินค้า',
+          icon: AccountCogOutline,
+          path: '/stock/productHistory'
+        }
+      ]
+    },
+    {
+      sectionTitle: 'จัดการข้อมูลภายในสาขา'
+    },
+    {
+      title: 'จัดการบริหารภายใน',
+      groupActive: [
+        {
+          title: 'พนักงาน',
+          icon: AccountCogOutline,
+          path: '/management/employee'
+        },
+        {
+          title: 'กิจกรรม',
+          icon: AccountCogOutline,
+          path: '/management/activity'
+        }
+      ]
     }
 
     // {

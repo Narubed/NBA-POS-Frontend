@@ -3,6 +3,7 @@ import { useState, Fragment } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
+import { signOut } from 'next-auth/react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -22,6 +23,9 @@ import LogoutVariant from 'mdi-material-ui/LogoutVariant'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
+
+// component
+import ChangeBranch from './ChangeBranch'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -44,7 +48,10 @@ const UserDropdown = () => {
   }
 
   const handleDropdownClose = url => {
-    if (url) {
+    if (url === '/signin/') {
+      localStorage.removeItem('branch')
+      signOut()
+    } else if (url) {
       router.push(url)
     }
     setAnchorEl(null)
@@ -77,7 +84,7 @@ const UserDropdown = () => {
           alt='John Doe'
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
-          src='/images/avatars/1.png'
+          src='https://nbadigitalservice.com/static/media/nba.1825cd8a.png'
         />
       </Badge>
       <Menu
@@ -95,7 +102,11 @@ const UserDropdown = () => {
               badgeContent={<BadgeContentSpan />}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-              <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar
+                alt='John Doe'
+                src='https://nbadigitalservice.com/static/media/nba.1825cd8a.png'
+                sx={{ width: '2.5rem', height: '2.5rem' }}
+              />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 600 }}>John Doe</Typography>
@@ -106,24 +117,21 @@ const UserDropdown = () => {
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/menu/createBarcode/')}>
+          <Box sx={styles}>
+            <EmailOutline sx={{ marginRight: 2 }} />
+            สร้างบาร์โค้ต
+          </Box>
+        </MenuItem>
+        <ChangeBranch />
+
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
             Profile
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <EmailOutline sx={{ marginRight: 2 }} />
-            Inbox
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <MessageOutline sx={{ marginRight: 2 }} />
-            Chat
-          </Box>
-        </MenuItem>
+
         <Divider />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
@@ -144,7 +152,7 @@ const UserDropdown = () => {
           </Box>
         </MenuItem>
         <Divider />
-        <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/pages/login')}>
+        <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/signin/')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout
         </MenuItem>

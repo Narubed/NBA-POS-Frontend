@@ -12,6 +12,7 @@ import VerticalNavItems from '../navigation/vertical'
 // ** Component Import
 import UpgradeToProButton from './components/UpgradeToProButton'
 import VerticalAppBarContent from './components/vertical/AppBarContent'
+import LoadingPage from './LoadingPage'
 
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
@@ -63,6 +64,7 @@ const UserLayout = ({ children }) => {
       )}
     >
       {children}
+      <LoadingPage />
       <UpgradeToProButton />
     </VerticalLayout>
   )

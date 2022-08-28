@@ -2,6 +2,7 @@
 import Head from 'next/head'
 import { Router } from 'next/router'
 import { SessionProvider } from 'next-auth/react'
+import { Provider } from 'react-redux'
 
 // ** Loader Import
 import NProgress from 'nprogress'
@@ -24,6 +25,8 @@ import { createEmotionCache } from '../src/@core/utils/create-emotion-cache'
 
 // ** React Perfect Scrollbar Style
 import 'react-perfect-scrollbar/dist/css/styles.css'
+
+import { wrapper, store } from '../src/store/store'
 
 // ** Global css styles
 import '../styles/globals.css'
@@ -70,7 +73,15 @@ const App = props => {
         <SettingsProvider>
           <SettingsConsumer>
             {({ settings }) => {
-              return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
+              return (
+                <ThemeComponent settings={settings}>
+                  {getLayout(
+                    <Provider store={store}>
+                      <Component {...pageProps} />
+                    </Provider>
+                  )}
+                </ThemeComponent>
+              )
             }}
           </SettingsConsumer>
         </SettingsProvider>
@@ -79,4 +90,4 @@ const App = props => {
   )
 }
 
-export default App
+export default wrapper.withRedux(App)

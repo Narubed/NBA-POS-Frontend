@@ -4,9 +4,21 @@ import { Card, Link, Container, Typography } from '@mui/material'
 import LoginForm from '../src/components/auth/FormLogin'
 import useResponsive from '../src/hooks/useResponsive'
 
+import bgLogin from '../public/images/Background/bglogin4.png'
+import backgroundLogin from '../public/images/Background/bglogin3.png'
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
+  // backgroundColor: 'red'
+  backgroundImage: `url(${backgroundLogin.src})`,
+  backgroundSize: 'cover',
+  height: '100vh',
+  padding: 5,
+  backgroundAttachment: 'fixed',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'top',
+
   [theme.breakpoints.up('md')]: {
     display: 'flex'
   }
@@ -29,8 +41,8 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 }))
 
 const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
-  maxWidth: 464,
+  width: '110%',
+  maxWidth: 450,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -39,7 +51,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
 }))
 
 const ContentStyle = styled('div')(({ theme }) => ({
-  maxWidth: 480,
+  maxWidth: 500,
   margin: 'auto',
   minHeight: '95vh',
   display: 'flex',
@@ -57,7 +69,7 @@ export default function Login() {
   return (
     <RootStyle>
       <HeaderStyle>
-        <img src='https://api.nbadigitalservice.com/static/images/icons/nbadigital.png' alt='login' width={'60px'} />
+        {/* <img src='https://api.nbadigitalservice.com/static/images/icons/nbadigital.png' alt='login' width={'60px'} /> */}
 
         {/* {smUp && (
           <Typography variant='body2' sx={{ mt: { md: -2 } }}>
@@ -68,15 +80,15 @@ export default function Login() {
 
       {mdUp && (
         <SectionStyle>
-          <img src='https://foodexpress.nbadigitalservice.com/static/illustrations/icon%2001-01.png' alt='login' />
+          <img src={bgLogin.src} alt='login' style={{ backgroundAttachment: 'fixed' }} />
         </SectionStyle>
       )}
 
       <Container maxWidth='sm'>
         <ContentStyle>
-          <Typography variant='h5' gutterBottom>
+          {/* <Typography variant='h5' gutterBottom>
             คิดคำไม่ออก POS
-          </Typography>
+          </Typography> */}
           <LoginForm />
         </ContentStyle>
       </Container>
