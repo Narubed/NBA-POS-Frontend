@@ -1,5 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ** React Imports
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
+import axios from 'axios'
+import { useSession } from 'next-auth/react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -37,8 +40,11 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
 }))
 
 const UserDropdown = () => {
+  const { data: session } = useSession()
+
   // ** States
   const [anchorEl, setAnchorEl] = useState(null)
+  const [isBranch, setBranch] = useState()
 
   // ** Hooks
   const router = useRouter()
@@ -71,6 +77,15 @@ const UserDropdown = () => {
     }
   }
 
+  useEffect(() => {
+    funcGetBranch()
+  }, [session])
+
+  const funcGetBranch = async () => {
+    const isBranchid = localStorage.getItem('branch')
+    await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranchid}`).then(res => setBranch(res.data.data))
+  }
+
   return (
     <Fragment>
       <Badge
@@ -84,14 +99,14 @@ const UserDropdown = () => {
           alt='John Doe'
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
-          src='https://nbadigitalservice.com/static/media/nba.1825cd8a.png'
+          src={isBranch && `${process.env.NEXT_PUBLIC_DRIVE_SELECT_IMAGE}${isBranch.branch_image}`}
         />
       </Badge>
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => handleDropdownClose()}
-        sx={{ '& .MuiMenu-paper': { width: 230, marginTop: 4 } }}
+        sx={{ '& .MuiMenu-paper': { width: 330, marginTop: 4 } }}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
@@ -104,14 +119,14 @@ const UserDropdown = () => {
             >
               <Avatar
                 alt='John Doe'
-                src='https://nbadigitalservice.com/static/media/nba.1825cd8a.png'
+                src={isBranch && `${process.env.NEXT_PUBLIC_DRIVE_SELECT_IMAGE}${isBranch.branch_image}`}
                 sx={{ width: '2.5rem', height: '2.5rem' }}
               />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>John Doe</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{session?.user.name}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+                {session?.user.type_detail === 'owner' ? 'เจ้าของกิจการ' : session?.user.type_detail}
               </Typography>
             </Box>
           </Box>
@@ -123,9 +138,9 @@ const UserDropdown = () => {
             สร้างบาร์โค้ต
           </Box>
         </MenuItem>
-        <ChangeBranch />
+        <ChangeBranch funcGetBranch={funcGetBranch} />
 
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
             Profile
@@ -150,11 +165,11 @@ const UserDropdown = () => {
             <HelpCircleOutline sx={{ marginRight: 2 }} />
             FAQ
           </Box>
-        </MenuItem>
+        </MenuItem> */}
         <Divider />
         <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/signin/')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
-          Logout
+          ออกจากระบบ
         </MenuItem>
       </Menu>
     </Fragment>

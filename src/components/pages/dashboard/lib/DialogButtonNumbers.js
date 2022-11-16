@@ -108,13 +108,9 @@ export default function DialogCalculator({ openButtonNumbers, setButtonNumbers, 
               inputProps={{ min: 0, readOnly: true, style: { textAlign: 'right', fontSize: '28px' } }}
               id='standard-adornment-amount'
               value={isSummary && numeral(isSummary).format('0,0.00')}
-
-              // endAdornment={<InputAdornment position='end'>$</InputAdornment>}
             />
           </FormControl>
         </DialogTitle>
-        {/* {isSummary && isSummary} */}
-        {/* {value && value.keyUp && value.keyUp.key} */}
         <DialogContent>
           <DialogContentText id='alert-dialog-slide-description'>
             <Grid item xs={12} sx={{ display: 'flex', mb: 5, alignContent: 'center' }} spacing={2}>

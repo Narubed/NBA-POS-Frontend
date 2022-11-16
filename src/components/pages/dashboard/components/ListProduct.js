@@ -34,7 +34,8 @@ function ListProduct({
   isRadioTypePay,
   setRadioTypePay,
   currency,
-  setCurrency
+  setCurrency,
+  isReport
 }) {
   const dispatch = useDispatch()
   const valueListProduct = useSelector(state => state.list)
@@ -86,6 +87,7 @@ function ListProduct({
       />
 
       <DialogCalculator
+        isReport={isReport}
         isRadioTypePay={isRadioTypePay}
         setRadioTypePay={setRadioTypePay}
         openCalculator={openCalculator}

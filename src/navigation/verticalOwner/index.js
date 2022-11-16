@@ -1,12 +1,15 @@
 // ** Icon imports
+import Login from 'mdi-material-ui/Login'
+import Table from 'mdi-material-ui/Table'
+import CubeOutline from 'mdi-material-ui/CubeOutline'
 import HomeOutline from 'mdi-material-ui/HomeOutline'
-import StackOverflow from 'mdi-material-ui/StackOverflow'
-import ClipboardTextClockOutline from 'mdi-material-ui/ClipboardTextClockOutline'
-import ClipboardTextClock from 'mdi-material-ui/ClipboardTextClock'
-import DatabaseArrowDown from 'mdi-material-ui/DatabaseArrowDown'
-import History from 'mdi-material-ui/History'
-import CardAccountDetails from 'mdi-material-ui/CardAccountDetails'
-import ShieldAlert from 'mdi-material-ui/ShieldAlert'
+import FormatLetterCase from 'mdi-material-ui/FormatLetterCase'
+import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
+import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
+import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
+import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
+import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
+import ArrowDownCircle from 'mdi-material-ui/ArrowDownCircle'
 
 const navigation = () => {
   return [
@@ -20,17 +23,17 @@ const navigation = () => {
     },
     {
       title: 'แดชบอร์ด',
-      icon: StackOverflow,
+      icon: AccountCogOutline,
       path: '/report/dashboard'
     },
     {
       title: 'ประวัติการขาย',
-      icon: ClipboardTextClockOutline,
+      icon: AccountCogOutline,
       path: '/report'
     },
     {
       title: 'ใบกำกับภาษี(เต็ม)',
-      icon: ClipboardTextClock,
+      icon: AccountCogOutline,
       path: '/report/invoice/full'
     },
 
@@ -39,12 +42,12 @@ const navigation = () => {
     },
     {
       title: 'สต๊อกสินค้า',
-      icon: DatabaseArrowDown,
+      icon: AccountCogOutline,
       path: '/stock/product'
     },
     {
       title: 'ประวัติสินค้า',
-      icon: History,
+      icon: AccountCogOutline,
       path: '/stock/productHistory'
     },
 
@@ -69,12 +72,12 @@ const navigation = () => {
 
     {
       title: 'พนักงาน',
-      icon: CardAccountDetails,
+      icon: AccountCogOutline,
       path: '/management/employee'
     },
     {
       title: 'กิจกรรม',
-      icon: ShieldAlert,
+      icon: AccountCogOutline,
       path: '/management/activity'
     }
 

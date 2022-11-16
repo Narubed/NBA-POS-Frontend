@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useSession, signIn } from 'next-auth/react'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
@@ -91,7 +91,20 @@ export default function Component() {
   const router = useRouter()
 
   const { data: session } = useSession()
-  if (!session) return <Main signIn={signIn} />
+  if (!session) {
+    return <Main signIn={signIn} />
+  }
+
+  useEffect(() => {
+    if (session) {
+      if (
+        session.user.type_detail.toString() === 'พนักงานทั่วไป' ||
+        session.user.type_detail.toString() === 'พนักงานเคาน์เตอร์'
+      ) {
+        signOut()
+      }
+    }
+  }, [])
 
   const [isEmployeeList, setEmployeeList] = useState([])
   const [page, setPage] = useState(0)
@@ -115,7 +128,6 @@ export default function Component() {
     const getEmployee = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee/branch/${isBranch}`)
     if (getEmployee || getEmployee.data.data) {
       const reverseEmployee = getEmployee.data.data.reverse()
-      console.log(reverseEmployee)
       setEmployeeList(reverseEmployee)
     }
 

@@ -63,7 +63,12 @@ export default function DialogSelectPrint({ isSelectPrint, setSelectPrint, isRep
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
             <List sx={{ pt: 0 }} onClick={() => handleSetLoading(true)}>
-              <LoadingButton loading={isLoadingButton} loadingPosition='end' onClick={() => setLoadingButton(true)}>
+              <LoadingButton
+                loading={isLoadingButton}
+                loadingPosition='end'
+                onClick={() => setLoadingButton(true)}
+                autoFocus
+              >
                 <ReactToPrint
                   trigger={() => (
                     <ListItem button sx={{ borderRadius: '15px' }}>
@@ -115,9 +120,12 @@ export default function DialogSelectPrint({ isSelectPrint, setSelectPrint, isRep
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>
-            ออก
-          </Button>
+          <ReactToPrint
+            trigger={() => <Button autoFocus>พิมพ์อัตโนมัติ</Button>}
+            content={() => componentToPrint.current}
+          />
+
+          <Button onClick={handleClose}>ออก</Button>
         </DialogActions>
       </Dialog>
       <PrintInvoice componentToPrint={componentToPrint} isReport={isReport} />

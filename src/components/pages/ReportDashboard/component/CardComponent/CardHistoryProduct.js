@@ -13,7 +13,7 @@ const CardStock = ({ isBranch }) => {
 
   return (
     <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: 'warning.main' }}>
-      <CardActionArea onClick={() => router.push('/management/employee/')}>
+      <CardActionArea onClick={() => router.push('/stock/productHistory/')}>
         <CardContent sx={{ padding: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
           <Typography
             variant='h6'
@@ -26,7 +26,7 @@ const CardStock = ({ isBranch }) => {
             }}
           >
             {/* <Twitter sx={{ marginRight: 2.5 }} /> */}
-            พนักงาน
+            ประวัติสินค้า
           </Typography>
 
           <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
@@ -40,7 +40,7 @@ const CardStock = ({ isBranch }) => {
               )}
 
               <Typography variant='body2' sx={{ color: 'common.white' }}>
-                พนักงานทั้งหมด
+                (รับเข้า-จ่ายออก)
               </Typography>
             </Box>
           </Box>

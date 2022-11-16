@@ -1,7 +1,8 @@
 // ** Next Imports
 import Head from 'next/head'
+import { useEffect } from 'react'
 import { Router } from 'next/router'
-import { SessionProvider } from 'next-auth/react'
+import { SessionProvider, signOut } from 'next-auth/react'
 import { Provider } from 'react-redux'
 
 // ** Loader Import
@@ -30,6 +31,7 @@ import { wrapper, store } from '../src/store/store'
 
 // ** Global css styles
 import '../styles/globals.css'
+import dayjs from 'dayjs'
 
 const clientSideEmotionCache = createEmotionCache()
 
@@ -53,10 +55,17 @@ const App = props => {
     emotionCache = clientSideEmotionCache,
     pageProps: { session, ...pageProps }
   } = props
-  console.log(props)
+  console.log('isProps _app', session)
+
+  // if (!session) {
+  //   signOut()
+  // }
+
+  console.log(dayjs(Date.now()).format())
 
   // Variables
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
+  if (process.env.NODE_ENV !== 'development') console.log = console.warn = console.error = () => {}
 
   return (
     <CacheProvider value={emotionCache}>

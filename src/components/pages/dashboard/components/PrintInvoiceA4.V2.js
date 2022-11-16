@@ -66,7 +66,10 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
               <br />
               วันที่ {isReport && dayjs(isReport.report_timestamp).add(543, 'year').locale('th').format('DD MMM YYYY')}
               <br />
-              {isReport && isReport.report_vat_name} <br />
+              {isReport && isReport.report_vat_name !== 'ไม่มี'
+                ? isReport.report_vat_name
+                : isReport.report_branch_name}{' '}
+              <br />
               {isReport && isReport.report_address} <br />
               {isReport &&
                 isReport.report_vat_number !== 'ไม่มี' &&
@@ -149,6 +152,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                       </td>
                     </tr>
                   ))}
+
                 <tr>
                   <td colSpan='3' style={{ fontSize: '1em', textAlign: 'center' }}>
                     {isReport &&
@@ -170,84 +174,88 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                     {isReport && numeral(isReport.report_grand_total + isReport.report_discount).format('0,0.00')}
                   </td>
                 </tr>
+                {isReport.report_vat_name !== 'ไม่มี' && (
+                  <>
+                    <tr>
+                      <td colSpan='3' />
+                      <td colSpan='2' style={{ textAlign: 'right' }}>
+                        {' '}
+                        หักส่วนลด/Discount
+                      </td>
 
-                <tr>
-                  <td colSpan='3' />
-                  <td colSpan='2' style={{ textAlign: 'right' }}>
-                    {' '}
-                    หักส่วนลด/Discount
-                  </td>
+                      <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                        {isReport && numeral(isReport.report_discount).format('0,0.00')}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan='3' />
+                      <td colSpan='2' style={{ textAlign: 'right' }}>
+                        สินค้าไม่เสียภาษี/NON VAT
+                      </td>
 
-                  <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
-                    {isReport && numeral(isReport.report_discount).format('0,0.00')}
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan='3' />
-                  <td colSpan='2' style={{ textAlign: 'right' }}>
-                    สินค้าไม่เสียภาษี/NON VAT
-                  </td>
+                      <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                        {isReport &&
+                          isReport.report_detail &&
+                          numeral(
+                            isReport.report_detail
+                              .filter(item => item.product_pay_tax === true)
+                              .reduce(
+                                (sum, value) => sum + value.amount * value.product_price - value.product_discount,
+                                0
+                              )
+                          ).format('0,0.00')}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan='3' />
+                      <td colSpan='2' style={{ textAlign: 'right' }}>
+                        จำนวนเงินก่อนภาษีมูลค่าเพิ่ม/VAT EXC
+                      </td>
 
-                  <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
-                    {isReport &&
-                      isReport.report_detail &&
-                      numeral(
-                        isReport.report_detail
-                          .filter(item => item.product_pay_tax === true)
-                          .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0)
-                      ).format('0,0.00')}
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan='3' />
-                  <td colSpan='2' style={{ textAlign: 'right' }}>
-                    จำนวนเงินก่อนภาษีมูลค่าเพิ่ม/VAT EXC
-                  </td>
+                      <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                        {isReport &&
+                          isReport.report_detail &&
+                          numeral(
+                            isReport.report_detail
+                              .filter(item => item.product_pay_tax === false)
+                              .reduce(
+                                (sum, value) => sum + value.amount * value.product_price - value.product_discount,
+                                0
+                              ) -
+                              (isReport.report_detail
+                                .filter(item => item.product_pay_tax === false)
+                                .reduce(
+                                  (sum, value) => sum + value.amount * value.product_price - value.product_discount,
+                                  0
+                                ) *
+                                7) /
+                                100
+                          ).format('0,0.00')}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan='3' />
+                      <td colSpan='2' style={{ textAlign: 'right' }}>
+                        {`ภาษี ${(TAX_RATE * 100).toFixed(0)} %`}
+                      </td>
 
-                  <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
-                    {isReport &&
-                      isReport.report_detail &&
-                      numeral(
-                        isReport.report_detail
-                          .filter(item => item.product_pay_tax === false)
-                          .reduce(
-                            (sum, value) => sum + value.amount * value.product_price - value.product_discount,
-                            0
-                          ) -
-                          (isReport.report_detail
-                            .filter(item => item.product_pay_tax === false)
-                            .reduce(
-                              (sum, value) => sum + value.amount * value.product_price - value.product_discount,
-                              0
-                            ) *
-                            7) /
-                            100
-                      ).format('0,0.00')}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td colSpan='3' />
-                  <td colSpan='2' style={{ textAlign: 'right' }}>
-                    {`ภาษี ${(TAX_RATE * 100).toFixed(0)} %`}
-                  </td>
-
-                  <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
-                    {isReport &&
-                      isReport.report_detail &&
-                      numeral(
-                        (isReport.report_detail
-                          .filter(item => item.product_pay_tax === false)
-                          .reduce(
-                            (sum, value) => sum + value.amount * value.product_price - value.product_discount,
-                            0
-                          ) *
-                          7) /
-                          100
-                      ).format('0,0.00')}
-                  </td>
-                </tr>
-
+                      <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                        {isReport &&
+                          isReport.report_detail &&
+                          numeral(
+                            (isReport.report_detail
+                              .filter(item => item.product_pay_tax === false)
+                              .reduce(
+                                (sum, value) => sum + value.amount * value.product_price - value.product_discount,
+                                0
+                              ) *
+                              7) /
+                              100
+                          ).format('0,0.00')}
+                      </td>
+                    </tr>
+                  </>
+                )}
                 <tr>
                   <td colSpan='3' />
                   <td colSpan='2' style={{ textAlign: 'right' }}>

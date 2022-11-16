@@ -53,6 +53,9 @@ export default function DialogCreateInvoice({ row, isOpenDialog, setOpenDialog, 
   const [isValues, setValues] = React.useState()
 
   const handleSubmits = async e => {
+    const isBranch = localStorage.getItem('branch')
+    console.log(isBranch)
+    console.log(e)
     setValues(e)
     setOpenDialog(false)
     setOpenDialogConfirm(true)

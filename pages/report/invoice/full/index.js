@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useSession, signIn } from 'next-auth/react'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
@@ -118,6 +118,14 @@ export default function Component() {
 
   useEffect(() => {
     getAllReport()
+  }, [])
+
+  useEffect(() => {
+    if (session) {
+      if (session.user.type_detail.toString() === 'พนักงานทั่วไป') {
+        signOut()
+      }
+    }
   }, [])
 
   const getAllReport = async () => {

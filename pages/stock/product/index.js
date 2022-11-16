@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useSession, signIn } from 'next-auth/react'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
@@ -105,6 +105,14 @@ export default function Component() {
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [isProductFilter, setProductFilter] = useState(null)
   const [showDrawerCreate, setDrawerCreate] = useState(false)
+
+  useEffect(() => {
+    if (session) {
+      if (session.user.type_detail.toString() === 'พนักงานทั่วไป') {
+        signOut()
+      }
+    }
+  }, [])
 
   useEffect(async () => {
     dispatch(loading(true))

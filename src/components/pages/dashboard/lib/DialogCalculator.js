@@ -1,5 +1,6 @@
 import * as React from 'react'
 import numeral from 'numeral'
+import ReactToPrint from 'react-to-print'
 import { useSelector, useDispatch } from 'react-redux'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -20,6 +21,7 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormLabel from '@mui/material/FormLabel'
+import PrintInvoice from '../components/PrintInvoice'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -32,8 +34,10 @@ export default function DialogCalculator({
   setDiscount,
   confirmOrder,
   isRadioTypePay,
-  setRadioTypePay
+  setRadioTypePay,
+  isReport
 }) {
+  const componentToPrint = React.useRef(null)
   const valueListProduct = useSelector(state => state.list)
   const [value, setvalue] = React.useState()
   const [isSummary, setSummary] = React.useState('')
@@ -397,9 +401,11 @@ export default function DialogCalculator({
             onClick={() => onClickButton('Enter')}
           >
             ตกลง
+            {/* <ReactToPrint trigger={() => <Button>ตกลง</Button>} content={() => componentToPrint.current} /> */}
           </Button>
         </DialogActions>
       </Dialog>
+      {/* <PrintInvoice componentToPrint={componentToPrint} isReport={isReport} /> */}
     </div>
   )
 }

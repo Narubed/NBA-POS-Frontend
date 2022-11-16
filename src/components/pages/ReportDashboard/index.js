@@ -9,7 +9,8 @@ import CardSales from './component/CardComponent/CardSales'
 import CardStock from './component/CardComponent/CardStock'
 import CardReport from './component/CardComponent/CardReport'
 import CardCreateBracode from './component/CardComponent/CardCreateBracode'
-import CardEmployee from './component/CardComponent/CardEmployee'
+import CardHistoryProduct from './component/CardComponent/CardHistoryProduct'
+import CardInvoiceFull from './component/CardComponent/CardInvoiceFull'
 
 import CardSalesHistory from './component/CardSalesHistory'
 
@@ -43,11 +44,12 @@ export default function index() {
         <Grid item xs={12} sm={4} md={2}>
           <CardReport isBranch={isBranch} />
         </Grid>
+
         <Grid item xs={12} sm={4} md={2}>
-          <CardEmployee isBranch={isBranch} />
+          <CardInvoiceFull isBranch={isBranch} />
         </Grid>
         <Grid item xs={12} sm={4} md={2}>
-          <CardTwitter />
+          <CardHistoryProduct isBranch={isBranch} />
         </Grid>
         <Grid item xs={12} sm={4} md={2}>
           <CardCreateBracode isBranch={isBranch} />

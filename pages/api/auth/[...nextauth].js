@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
@@ -5,14 +6,7 @@ export default NextAuth({
   providers: [
     CredentialsProvider({
       id: 'credentials',
-
-      // The name to display on the sign in form (e.g. 'Sign in with...')
       name: 'my-project',
-
-      // The credentials is used to generate a suitable form on the sign in page.
-      // You can specify whatever fields you are expecting to be submitted.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
         email: {
           label: 'email',
@@ -28,9 +22,11 @@ export default NextAuth({
       async authorize(credentials, req) {
         const payload = {
           email: credentials.email,
-          password: credentials.password
+          password: credentials.password,
+          date: dayjs(Date.now()).format()
         }
-
+        console.log(payload)
+        
         const res = await fetch(`${process.env.NEXT_PUBLIC_POS_BACKEND}/signin`, {
           method: 'POST',
           body: JSON.stringify(payload),
@@ -41,7 +37,7 @@ export default NextAuth({
           }
         })
         const data = await res.json()
-        console.log(data)
+        console.log('data=>>>', data)
         if (data.status == 'ok') {
           if (data.user.status === false) {
             return null
@@ -57,7 +53,7 @@ export default NextAuth({
   secret: 'LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx5mLg=',
   session: {
     jwt: true,
-    maxAge: 5 * 60 * 60 // 5 seconds
+    maxAge: 24 * 60 * 60 * 2 // 2 day
     // updateAge: 24 * 60 * 60, // 24 hours
   },
 
@@ -66,8 +62,6 @@ export default NextAuth({
   },
   callbacks: {
     async jwt({ token, account, user }) {
-      console.log('user=>', user)
-
       if (account) {
         token.accessToken = account.access_token
         token.user = user
@@ -79,8 +73,7 @@ export default NextAuth({
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.accessToken
       session.user = token.user
-      console.log(session)
-      console.log(Date.now())
+      console.log('is Token', token)
 
       return session
     }

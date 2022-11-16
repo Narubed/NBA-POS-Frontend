@@ -1,4 +1,6 @@
 // ** MUI Imports
+import { useSession, signOut } from 'next-auth/react'
+import { useEffect } from 'react'
 import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
@@ -8,6 +10,8 @@ import VerticalLayout from '../@core/layouts/VerticalLayout'
 
 // ** Navigation Imports
 import VerticalNavItems from '../navigation/vertical'
+import VerticalNavItemsCounter from '../navigation/verticalCounterStaff'
+import verticalNavItemsEmployee from '../navigation/verticalEmployee'
 
 // ** Component Import
 import UpgradeToProButton from './components/UpgradeToProButton'
@@ -16,30 +20,49 @@ import LoadingPage from './LoadingPage'
 
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
+import dayjs from 'dayjs'
+import Swal from 'sweetalert2'
 
 const UserLayout = ({ children }) => {
-  // ** Hooks
+  const { data: session } = useSession()
+  if (session) {
+    const { expires } = session
+    console.log(expires)
+    if (dayjs(expires).format() < dayjs(Date.now()).format()) {
+      localStorage.removeItem('branch')
+      Swal.fire({
+        icon: 'error',
+        title: 'หมดเวลาใช้งาน กรุณาเข้าสู่ระบบใหม่',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      signOut()
+    }
+  }
+
+  // if ()signOut
+
   const { settings, saveSettings } = useSettings()
 
-  /**
-   *  The below variable will hide the current layout menu at given screen size.
-   *  The menu will be accessible from the Hamburger icon only (Vertical Overlay Menu).
-   *  You can change the screen size from which you want to hide the current layout menu.
-   *  Please refer useMediaQuery() hook: https://mui.com/components/use-media-query/,
-   *  to know more about what values can be passed to this hook.
-   *  ! Do not change this value unless you know what you are doing. It can break the template.
-   */
   const hidden = useMediaQuery(theme => theme.breakpoints.down('lg'))
+  let checkType = null
+  if (session?.user.type_detail === 'owner' || session?.user.type_detail === 'ผู้จัดการ') {
+    checkType = VerticalNavItems()
+  } else if (session?.user.type_detail === 'พนักงานเคาน์เตอร์') {
+    checkType = VerticalNavItemsCounter()
+  } else if (session?.user.type_detail === 'พนักงานทั่วไป') {
+    checkType = verticalNavItemsEmployee()
+  }
 
   const UpgradeToProImg = () => {
     return (
       <Box sx={{ mx: 'auto' }}>
-        <a
-          target='_blank'
-          rel='noreferrer'
-          href='https://themeselection.com/products/materio-mui-react-nextjs-admin-template/'
-        >
-          <img width={230} alt='upgrade to premium' src={`/images/misc/upgrade-banner-${settings.mode}.png`} />
+        <a target='_blank' rel='noreferrer' href='https://nbadigitalservice.com/'>
+          <img
+            width={230}
+            alt='upgrade to premium'
+            src={`https://foodexpress.nbadigitalservice.com/static/illustrations/icon%2001-04.png`}
+          />
         </a>
       </Box>
     )
@@ -50,7 +73,7 @@ const UserLayout = ({ children }) => {
       hidden={hidden}
       settings={settings}
       saveSettings={saveSettings}
-      verticalNavItems={VerticalNavItems()} // Navigation Items
+      verticalNavItems={checkType} // Navigation Items
       afterVerticalNavMenuContent={UpgradeToProImg}
       verticalAppBarContent={(
         props // AppBar Content

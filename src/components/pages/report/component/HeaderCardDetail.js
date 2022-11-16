@@ -27,15 +27,22 @@ import PrintInvoice from '../../dashboard/components/PrintInvoice'
 import PrintInvoiceA4 from '../../dashboard/components/PrintInvoiceA4.V2'
 import DialogCreateInvoice from './DialogCreateInvoice'
 import router from 'next/router'
+import { useSession } from 'next-auth/react'
 
 export default function HeaderCardDetail({ row, setDialog, getAllReport }) {
+  const { data: session } = useSession()
   const componentToPrint = React.useRef(null)
   const componentToPrintA4 = React.useRef(null)
   const [isOpenDialog, setOpenDialog] = React.useState(false)
 
   const onClickCreateInvoice = async () => {
-    setDialog(false)
-    setOpenDialog(true)
+    console.log(session)
+    if (session?.user.type_detail === 'พนักงานทั่วไป') {
+      setDialog(false)
+    } else {
+      setDialog(false)
+      setOpenDialog(true)
+    }
   }
 
   return (

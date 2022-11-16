@@ -214,7 +214,7 @@ function dashboard() {
       await axios
         .post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report`, dataReport)
         .then(res => (responseReport = res.data.report))
-      setReport(responseReport)
+      await setReport(responseReport)
       valueListProduct.forEach(async element => {
         const newUnitStore = element.product_unit_store - element.amount
 
@@ -261,6 +261,7 @@ function dashboard() {
       <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
         <Box position='sticky' top='100px' pb={{ xs: 1, lg: 6 }}>
           <ListProduct
+            isReport={isReport}
             isRadioTypePay={isRadioTypePay}
             setRadioTypePay={setRadioTypePay}
             deleteProduct={deleteProduct}

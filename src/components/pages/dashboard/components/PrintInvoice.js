@@ -3,25 +3,19 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 import numeral from 'numeral'
 import Grid from '@mui/material/Grid'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import axios from 'axios'
 
 export default function PrintInvoice({ componentToPrint, isReport }) {
+  console.log(isReport)
   React.useEffect(() => {
     // const reducePriceNonvat = dataNonvat.reduce((sum, item) => sum + item.)
   }, [isReport])
 
   return (
-    <Grid display={'none'}>
+    <Grid display='none'>
       <div ref={el => (componentToPrint.current = el)}>
         <div className='ticket' style={{ alignItem: 'center', margin: 'auto', color: '#000000' }}>
           <img
-            src='https://foodexpress.nbadigitalservice.com/static/NBA2.png'
+            src={`${process.env.NEXT_PUBLIC_DRIVE_SELECT_IMAGE}${isReport.report_branch_image}`}
             alt='Logo'
             width={'120px'}
             style={{
@@ -34,7 +28,7 @@ export default function PrintInvoice({ componentToPrint, isReport }) {
           />
 
           <div style={{ textAlign: 'center', borderBottom: '1px solid black' }}>
-            {isReport && isReport.report_vat_name}
+            {isReport && isReport.report_vat_name !== 'ไม่มี' ? isReport.report_vat_name : isReport.report_branch_name}
             <br />
             <p className='centered' style={{ fontSize: '12px' }}>
               เลขที่ใบเสร็จ : {isReport && isReport.report_tax_invoice_number_shot}
@@ -43,7 +37,9 @@ export default function PrintInvoice({ componentToPrint, isReport }) {
                 <a>TAX# : {isReport && isReport.report_vat_number}</a>
               )}
               <br />
-              ใบเสร็จรับเงิน/ใบกำกับภาษีอย่างย่อ
+              {isReport && isReport.report_vat_name !== 'ไม่มี'
+                ? 'ใบเสร็จรับเงิน/ใบกำกับภาษีอย่างย่อ'
+                : 'ใบเสร็จรับเงิน'}
               <br />
               (VAT Included)
             </p>
@@ -102,53 +98,65 @@ export default function PrintInvoice({ componentToPrint, isReport }) {
               </div>
             </>
           )}
-          <div
-            style={{ justifyContent: 'space-between', borderTop: '1px solid black', display: 'flex', fontSize: '12px' }}
-          >
-            <div>NonVAT</div>
-            <div>
-              {isReport &&
-                isReport.report_detail &&
-                numeral(
-                  isReport.report_detail
-                    .filter(item => item.product_pay_tax === true)
-                    .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0)
-                ).format('0,0.00')}
-            </div>
-          </div>
-          <div style={{ justifyContent: 'space-between', display: 'flex', fontSize: '12px' }}>
-            <div>VATable</div>
-            <div>
-              {' '}
-              {isReport &&
-                isReport.report_detail &&
-                numeral(
-                  isReport.report_detail
-                    .filter(item => item.product_pay_tax === false)
-                    .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0) -
-                    (isReport.report_detail
-                      .filter(item => item.product_pay_tax === false)
-                      .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0) *
-                      7) /
-                      100
-                ).format('0,0.00')}
-            </div>
-          </div>
-          <div style={{ justifyContent: 'space-between', display: 'flex', fontSize: '12px' }}>
-            <div>VAT 7 %</div>
-            <div>
-              {' '}
-              {isReport &&
-                isReport.report_detail &&
-                numeral(
-                  (isReport.report_detail
-                    .filter(item => item.product_pay_tax === false)
-                    .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0) *
-                    7) /
-                    100
-                ).format('0,0.00')}
-            </div>
-          </div>
+          {isReport.report_vat_name !== 'ไม่มี' && (
+            <>
+              <div
+                style={{
+                  justifyContent: 'space-between',
+                  borderTop: '1px solid black',
+                  display: 'flex',
+                  fontSize: '12px'
+                }}
+              >
+                <div>NonVAT</div>
+                <div>
+                  {isReport &&
+                    isReport.report_detail &&
+                    numeral(
+                      isReport.report_detail
+                        .filter(item => item.product_pay_tax === true)
+                        .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0)
+                    ).format('0,0.00')}
+                </div>
+              </div>
+              <div style={{ justifyContent: 'space-between', display: 'flex', fontSize: '12px' }}>
+                <div>VATable</div>
+                <div>
+                  {' '}
+                  {isReport &&
+                    isReport.report_detail &&
+                    numeral(
+                      isReport.report_detail
+                        .filter(item => item.product_pay_tax === false)
+                        .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0) -
+                        (isReport.report_detail
+                          .filter(item => item.product_pay_tax === false)
+                          .reduce(
+                            (sum, value) => sum + value.amount * value.product_price - value.product_discount,
+                            0
+                          ) *
+                          7) /
+                          100
+                    ).format('0,0.00')}
+                </div>
+              </div>
+              <div style={{ justifyContent: 'space-between', display: 'flex', fontSize: '12px' }}>
+                <div>VAT 7 %</div>
+                <div>
+                  {' '}
+                  {isReport &&
+                    isReport.report_detail &&
+                    numeral(
+                      (isReport.report_detail
+                        .filter(item => item.product_pay_tax === false)
+                        .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0) *
+                        7) /
+                        100
+                    ).format('0,0.00')}
+                </div>
+              </div>
+            </>
+          )}
           <div style={{ justifyContent: 'space-between', display: 'flex', fontSize: '12px' }}>
             <div>สุทธิ</div>
             <div>

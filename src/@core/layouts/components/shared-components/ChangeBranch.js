@@ -38,12 +38,10 @@ const styles = {
   }
 }
 
-export default function ChangeBranch() {
+export default function ChangeBranch({ funcGetBranch }) {
   const router = useRouter()
   const { data: session } = useSession()
   const valueUsers = session.user
-
-  console.log(valueUsers)
   const [open, setOpen] = React.useState(false)
   const [isBranchs, setBranchs] = React.useState([])
 
@@ -64,6 +62,7 @@ export default function ChangeBranch() {
     } else {
       router.push('/')
     }
+    funcGetBranch()
     setOpen(false)
   }
 

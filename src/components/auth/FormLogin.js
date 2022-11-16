@@ -18,6 +18,7 @@ import FormControl from '@mui/material/FormControl'
 import Alert from '@mui/material/Alert'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import InputAdornment from '@mui/material/InputAdornment'
+import Swal from 'sweetalert2'
 
 import OutlinedInput from '@mui/material/OutlinedInput'
 import { styled, useTheme } from '@mui/material/styles'
@@ -51,7 +52,15 @@ const FormLogin = () => {
         setError(null)
       }
 
-      if (res.url) router.push(res.url)
+      if (res.url) {
+        Swal.fire({
+          icon: 'success',
+          title: 'ยินดีตอนรับเข้าสู่ระบบ',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        router.push(res.url)
+      }
     }
   })
 

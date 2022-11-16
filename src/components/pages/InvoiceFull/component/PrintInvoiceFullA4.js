@@ -71,16 +71,17 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
               วันที่ :{' '}
               {isReport && dayjs(isReport.report_timestamp).add(543, 'year').locale('th').format('DD MMM YYYY')}
               <br />
-              {isReport && <a>{isReport.rif_vat_name}</a>} <br />
+              {isReport && (
+                <a>{isReport.rif_vat_name !== 'ไม่มี' ? isReport.rif_vat_name : isReport.rif_branch_name}</a>
+              )}{' '}
+              <br />
               {isReport && <a>{isReport.rif_address}</a>} <br />
               {isReport && <a>เบอร์โทรศัพท์: {isReport.rif_vat_phone}</a>} <br />
               {isReport &&
-                isReport.report_vat_number !== 'ไม่มี' &&
+                isReport.rif_vat_number !== 'ไม่มี' &&
                 `เลขประจำตัวผู้เสียภาษี : ${isReport.rif_vat_number}`}{' '}
               <br />
-              {isReport &&
-                isReport.report_vat_name !== 'ไม่มี' &&
-                `สาขาที่ออกใบกำกับภาษี : ${isReport.rif_branch_name}`}
+              {isReport && isReport.rif_vat_name !== 'ไม่มี' && `สาขาที่ออกใบกำกับภาษี : ${isReport.rif_branch_name}`}
               {/* <div>Company Name</div>
               <div>
                 455 Foggy Heights,
@@ -192,72 +193,78 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
                     {isReport && numeral(isReport.rif_discount).format('0,0.00')}
                   </td>
                 </tr>
-                <tr>
-                  <td colSpan='3' />
-                  <td colSpan='2' style={{ textAlign: 'right' }}>
-                    สินค้าไม่เสียภาษี/NON VAT
-                  </td>
+                {isReport.rif_vat_name !== 'ไม่มี' && (
+                  <>
+                    <tr>
+                      <td colSpan='3' />
+                      <td colSpan='2' style={{ textAlign: 'right' }}>
+                        สินค้าไม่เสียภาษี/NON VAT
+                      </td>
 
-                  <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
-                    {isReport &&
-                      isReport.rif_detail &&
-                      numeral(
-                        isReport.rif_detail
-                          .filter(item => item.product_pay_tax === true)
-                          .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0)
-                      ).format('0,0.00')}
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan='3' />
-                  <td colSpan='2' style={{ textAlign: 'right' }}>
-                    จำนวนเงินก่อนภาษีมูลค่าเพิ่ม/VAT EXC
-                  </td>
+                      <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                        {isReport &&
+                          isReport.rif_detail &&
+                          numeral(
+                            isReport.rif_detail
+                              .filter(item => item.product_pay_tax === true)
+                              .reduce(
+                                (sum, value) => sum + value.amount * value.product_price - value.product_discount,
+                                0
+                              )
+                          ).format('0,0.00')}
+                      </td>
+                    </tr>
 
-                  <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
-                    {isReport &&
-                      isReport.rif_detail &&
-                      numeral(
-                        isReport.rif_detail
-                          .filter(item => item.product_pay_tax === false)
-                          .reduce(
-                            (sum, value) => sum + value.amount * value.product_price - value.product_discount,
-                            0
-                          ) -
-                          (isReport.rif_detail
-                            .filter(item => item.product_pay_tax === false)
-                            .reduce(
-                              (sum, value) => sum + value.amount * value.product_price - value.product_discount,
-                              0
-                            ) *
-                            7) /
-                            100
-                      ).format('0,0.00')}
-                  </td>
-                </tr>
+                    <tr>
+                      <td colSpan='3' />
+                      <td colSpan='2' style={{ textAlign: 'right' }}>
+                        จำนวนเงินก่อนภาษีมูลค่าเพิ่ม/VAT EXC
+                      </td>
 
-                <tr>
-                  <td colSpan='3' />
-                  <td colSpan='2' style={{ textAlign: 'right' }}>
-                    {`ภาษี ${(TAX_RATE * 100).toFixed(0)} %`}
-                  </td>
+                      <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                        {isReport &&
+                          isReport.rif_detail &&
+                          numeral(
+                            isReport.rif_detail
+                              .filter(item => item.product_pay_tax === false)
+                              .reduce(
+                                (sum, value) => sum + value.amount * value.product_price - value.product_discount,
+                                0
+                              ) -
+                              (isReport.rif_detail
+                                .filter(item => item.product_pay_tax === false)
+                                .reduce(
+                                  (sum, value) => sum + value.amount * value.product_price - value.product_discount,
+                                  0
+                                ) *
+                                7) /
+                                100
+                          ).format('0,0.00')}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan='3' />
+                      <td colSpan='2' style={{ textAlign: 'right' }}>
+                        {`ภาษี ${(TAX_RATE * 100).toFixed(0)} %`}
+                      </td>
 
-                  <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
-                    {isReport &&
-                      isReport.rif_detail &&
-                      numeral(
-                        (isReport.rif_detail
-                          .filter(item => item.product_pay_tax === false)
-                          .reduce(
-                            (sum, value) => sum + value.amount * value.product_price - value.product_discount,
-                            0
-                          ) *
-                          7) /
-                          100
-                      ).format('0,0.00')}
-                  </td>
-                </tr>
-
+                      <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                        {isReport &&
+                          isReport.rif_detail &&
+                          numeral(
+                            (isReport.rif_detail
+                              .filter(item => item.product_pay_tax === false)
+                              .reduce(
+                                (sum, value) => sum + value.amount * value.product_price - value.product_discount,
+                                0
+                              ) *
+                              7) /
+                              100
+                          ).format('0,0.00')}
+                      </td>
+                    </tr>
+                  </>
+                )}
                 <tr>
                   <td colSpan='3' />
                   <td colSpan='2' style={{ textAlign: 'right' }}>
@@ -318,12 +325,12 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
                   ลงชื่อ ______________________________ ผู้รับเงิน/เช็ค วันที่ ___________________________
                 </Grid>
                 <Grid xs={4} sm={4} md={4} lg={4} sx={{ textAlign: 'center' }}>
-                  <a>{isReport.rif_vat_name}</a>
+                  <a>{isReport.rif_vat_name !== 'ไม่มี' ? isReport.rif_vat_name : isReport.rif_branch_name}</a>
                   <br />
                   <br />
                   <br />
                   __________________________________ <br />
-                  ผู้รับมอบอำนาจ
+                  ผู้มีอำนาจ
                   <br />
                   Authorized Signature
                 </Grid>
