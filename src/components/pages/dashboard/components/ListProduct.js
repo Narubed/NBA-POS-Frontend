@@ -32,7 +32,7 @@ function ListProduct({
   isDiscount,
   setDiscount,
   isRadioTypePay,
-  setRadioTypePay,
+  handleSetRadioType,
   currency,
   setCurrency,
   isReport
@@ -89,7 +89,7 @@ function ListProduct({
       <DialogCalculator
         isReport={isReport}
         isRadioTypePay={isRadioTypePay}
-        setRadioTypePay={setRadioTypePay}
+        handleSetRadioType={handleSetRadioType}
         openCalculator={openCalculator}
         setCalculator={setCalculator}
         isDiscount={isDiscount}
@@ -153,12 +153,12 @@ function ListProduct({
           helperText='ผลรวมทั้งหมด'
           variant='standard'
           value={numeral(
-            valueListProduct.length !== undefined &&
-              valueListProduct.length !== 0 &&
-              valueListProduct.reduce(
-                (sum, item) => sum + item.product_price * item.amount - item.product_discount,
-                0
-              ) - isDiscount
+            valueListProduct?.length !== undefined && valueListProduct.length !== 0
+              ? valueListProduct?.reduce(
+                  (sum, item) => sum + item.product_price * item.amount - item.product_discount,
+                  0
+                ) - isDiscount
+              : 0
           ).format('0,0.00')}
         />
         {isDiscount && isDiscount !== 0 ? (
@@ -179,7 +179,7 @@ function ListProduct({
               valueListProduct.reduce((sum, item) => sum + item.product_price * item.amount, 0) */}
       </Grid>
       <Grid sx={{ mt: 8 }}>
-        {valueListProduct.length !== undefined && valueListProduct.length !== 0 && (
+        {valueListProduct?.length !== undefined && valueListProduct.length !== 0 && (
           <Button variant='contained' disableElevation sx={{ width: '100%' }} onClick={() => setCalculator(true)}>
             ชำระเงิน
           </Button>
@@ -187,7 +187,7 @@ function ListProduct({
       </Grid>
 
       <PerfectScrollbar style={{ maxHeight: '380px' }} options key={1}>
-        {valueListProduct.length !== undefined &&
+        {valueListProduct?.length !== undefined &&
           valueListProduct.length !== 0 &&
           valueListProduct.map(row => (
             <>

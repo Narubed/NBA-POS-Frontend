@@ -46,7 +46,7 @@ CheckOrderMoreMenu.propTypes = {
 }
 const Transition = React.forwardRef((props, ref) => <Slide direction='up' ref={ref} {...props} />)
 
-export default function CheckOrderMoreMenu({ row, id }) {
+export default function CheckOrderMoreMenu({ row, id, fetcherData }) {
   const router = useRouter()
   const [showModal, setShowModal] = useState(false)
 
@@ -106,7 +106,7 @@ export default function CheckOrderMoreMenu({ row, id }) {
           </MenuItem>
         </Menu>
         <ProductDetail item={row} isOpenDetail={isOpenDetail} setOpenDetail={setOpenDetail} />
-        <ProductEdit showDrawerEdit={showDrawerEdit} setDrawerEdit={setDrawerEdit} isProducts={row} />
+        <ProductEdit showDrawerEdit={showDrawerEdit} setDrawerEdit={setDrawerEdit} isProducts={row} fetcherData={fetcherData}/>
       </>
     </>
   )

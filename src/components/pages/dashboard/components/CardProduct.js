@@ -27,7 +27,7 @@ const ProductImgStyle = styled('img')({
   position: 'absolute'
 })
 
-const CardImgTop = ({ item, checkOrder, isOrders, setOrders, deleteProduct, changeAmountOrder }) => {
+const CardImgTop = ({ item, checkOrder, deleteProduct, changeAmountOrder }) => {
   const valueListProduct = useSelector(state => state.list)
   const [openButtonAmount, setButtonAmount] = React.useState(false)
 
@@ -57,7 +57,7 @@ const CardImgTop = ({ item, checkOrder, isOrders, setOrders, deleteProduct, chan
   }
 
   const newvalue =
-    valueListProduct.length !== undefined &&
+    valueListProduct?.length !== undefined &&
     valueListProduct.length !== 0 &&
     valueListProduct.find(row => row._id === item._id)
 

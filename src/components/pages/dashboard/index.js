@@ -28,6 +28,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { addItem, loading } from '../../../store/actions'
 import ListProduct from './components/ListProduct'
 import DialogSelectPrint from './lib/DialogSelectPrint'
+import DialogInputCredit from './lib/DialogInputCredit'
 import ScanerPages from './scaner-pages'
 import ButtonType from './components/ButtonType'
 
@@ -63,7 +64,7 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index])
+  const stabilizedThis = array?.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0])
     if (order !== 0) return order
@@ -118,10 +119,37 @@ function dashboard() {
   const [orderBy, setOrderBy] = useState('name')
   const [filterName, setFilterName] = useState('')
   const [isFilterType, setFilterType] = useState(null)
+  const [isInputCredit, setInputCredit] = useState('')
+  const [isOpenInputCredit, setOpenInputCredit] = useState(false)
 
   useEffect(async () => {
     allProduct()
   }, [dispatch])
+
+  useEffect(async () => {
+    const getOrderLocalstroage = localStorage.getItem('shopping')
+    const parseJsonLocal = JSON.parse(getOrderLocalstroage)
+    if (parseJsonLocal && parseJsonLocal.length !== 0) {
+      console.log(parseJsonLocal)
+      setOrder(parseJsonLocal)
+    }
+  }, [])
+
+  // useEffect(() => {
+  //   function checkUserData() {
+  //     const item = localStorage.getItem('shopping')
+  //     if (item) {
+  //       console.log(JSON.parse(item))
+
+  //       // setOrder(JSON.parse(item))
+  //       dispatch(addItem(JSON.parse(item)))
+  //     }
+  //   }
+  //   window.addEventListener('storage', checkUserData)
+  //   return () => {
+  //     window.removeEventListener('storage', checkUserData)
+  //   }
+  // }, [])
 
   const allProduct = async () => {
     const isBranch = localStorage.getItem('branch')
@@ -134,20 +162,24 @@ function dashboard() {
 
   const checkOrder = order => {
     const newOrder = order.item
-    const idx = isOrders.findIndex(item => item._id === newOrder._id)
+    console.log(newOrder)
+    const listProduct = valueListProduct !== undefined && valueListProduct.length !== 0 ? valueListProduct : []
+    console.log(listProduct)
+    const idx = listProduct?.findIndex(item => item._id === newOrder._id)
     if (idx === -1) {
-      isOrders.push({ ...newOrder, amount: 1 })
+      listProduct.push({ ...newOrder, amount: 1 })
       forceRerender()
     } else {
-      isOrders[idx].amount += 1
+      listProduct[idx].amount += 1
       forceRerender()
     }
-    setOrders(isOrders)
-    dispatch(addItem(isOrders))
+    console.log(listProduct)
+    setOrders(listProduct)
+    dispatch(addItem(listProduct))
   }
 
   const changeAmountOrder = value => {
-    const idx = valueListProduct.findIndex(item => item._id === value._id)
+    const idx = valueListProduct?.findIndex(item => item._id === value._id)
     if (idx !== -1) {
       valueListProduct[idx].amount = value.amount
       setOrders(valueListProduct)
@@ -207,6 +239,7 @@ function dashboard() {
         report_tax_invoice_number_shot: `${dayjs(Date.now()).format('YYYYMM')}${invoice_shot}`,
         report_money: parseFloat(props),
         report_payment_type: isRadioTypePay,
+        report_payment_number: isRadioTypePay === 'บัตรเครดิต' ? isInputCredit : 'ไม่มี',
         report_timestamp: dayjs(Date.now()).format()
       }
 
@@ -236,6 +269,8 @@ function dashboard() {
           product_unit_store: newUnitStore
         })
       })
+      setRadioTypePay('เงินสด')
+      setInputCredit('')
       forceRerender()
       setOrders([])
       dispatch(addItem([]))
@@ -253,6 +288,18 @@ function dashboard() {
     setFilterType(event)
   }
 
+  const handleSetRadioType = event => {
+    if (event === 'บัตรเครดิต') {
+      setRadioTypePay(event)
+      setOpenInputCredit(true)
+    } else {
+      setRadioTypePay(event)
+      setOpenInputCredit(false)
+    }
+  }
+
+  console.log(isInputCredit)
+
   const newProducts = isFilterType ? isProducts.filter(item => item.product_type === isFilterType) : isProducts
   const filteredList = applySortFilter(newProducts, getComparator(order, orderBy), filterName)
 
@@ -263,7 +310,7 @@ function dashboard() {
           <ListProduct
             isReport={isReport}
             isRadioTypePay={isRadioTypePay}
-            setRadioTypePay={setRadioTypePay}
+            handleSetRadioType={handleSetRadioType}
             deleteProduct={deleteProduct}
             confirmOrder={confirmOrder}
             isDiscount={isDiscount}
@@ -294,8 +341,6 @@ function dashboard() {
               <CardProduct
                 item={item}
                 checkOrder={checkOrder}
-                isOrders={isOrders}
-                setOrders={setOrders}
                 deleteProduct={deleteProduct}
                 forceRerender={forceRerender}
                 changeAmountOrder={changeAmountOrder}
@@ -349,13 +394,20 @@ function dashboard() {
               isDiscount={isDiscount}
               setDiscount={setDiscount}
               isRadioTypePay={isRadioTypePay}
-              setRadioTypePay={setRadioTypePay}
+              handleSetRadioType={handleSetRadioType}
               confirmOrder={confirmOrder}
             />
           </TabPanel>
         </TabContext>
       </Card>
       <DialogSelectPrint isReport={isReport} isSelectPrint={isSelectPrint} setSelectPrint={setSelectPrint} />
+      <DialogInputCredit
+        isInputCredit={isInputCredit}
+        setInputCredit={setInputCredit}
+        isOpenInputCredit={isOpenInputCredit}
+        setOpenInputCredit={setOpenInputCredit}
+        setRadioTypePay={setRadioTypePay}
+      />
     </Box>
   )
 }

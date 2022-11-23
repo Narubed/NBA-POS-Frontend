@@ -15,8 +15,6 @@ const FooterContent = () => {
         <Box component='span' sx={{ color: 'error.main' }}>
           ❤️
         </Box>
-        {` by `}
-        <Link>it@nbadigitalservice.com</Link>
       </Typography>
       {/* {hidden ? null : (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', '& :not(:last-child)': { mr: 4 } }}>

@@ -18,7 +18,9 @@ import {
   Button,
   Stack,
   Typography,
-  Container,
+  Switch,
+  FormGroup,
+  FormControlLabel,
   Card,
   TablePagination
 } from '@mui/material'
@@ -48,6 +50,8 @@ const TABLE_HEAD = [
   { id: 'product_cost', label: 'ราคาต้นทุน', alignRight: false },
   { id: 'product_price', label: 'ราคาขาย', alignRight: false },
   { id: 'product_unit_store', label: 'คงเหลือในสต๊อก', alignRight: false },
+  { id: 'product_status', label: 'สถานะ', alignRight: true },
+
   { id: '' }
 ]
 function descendingComparator(a, b, orderBy) {
@@ -80,6 +84,7 @@ function applySortFilter(array, comparator, query) {
       _user =>
         _user._id.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
         _user.product_id.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        _user.product_type.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
         _user.product_name.toLocaleString().toLowerCase().indexOf(query.toLowerCase()) !== -1
     )
   }
@@ -115,6 +120,10 @@ export default function Component() {
   }, [])
 
   useEffect(async () => {
+    fetcherData()
+  }, [])
+
+  const fetcherData = async () => {
     dispatch(loading(true))
     const isBranch = localStorage.getItem('branch')
 
@@ -125,7 +134,7 @@ export default function Component() {
     }
 
     dispatch(loading(false))
-  }, [])
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -167,12 +176,22 @@ export default function Component() {
   const onChangeStatus = e => {
     const filterStatus = isProductList.filter(value => value.product_type === e)
     if (filterStatus.length !== 0) {
-      setProductListFilter(filterStatus)
+      setProductFilter(filterStatus)
     }
   }
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - isProductList.length) : 0
-  const filteredList = applySortFilter(isProductList, getComparator(order, orderBy), filterName)
+  const switchStatusProduct = async props => {
+    dispatch(loading(true))
+    const { event, row } = props
+    await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${row._id}`, {
+      product_status: event.target.checked
+    })
+    fetcherData()
+    dispatch(loading(false))
+  }
+  const newProductList = isProductFilter && isProductFilter.length !== 0 ? isProductFilter : isProductList
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - newProductList.length) : 0
+  const filteredList = applySortFilter(newProductList, getComparator(order, orderBy), filterName)
 
   const isUserNotFound = filteredList.length === 0
 
@@ -206,6 +225,7 @@ export default function Component() {
           onChangeStatus={onChangeStatus}
           onResetFilter={onResetFilter}
           selected_id={selected_id}
+          isProductList={isProductList}
         />
         <Scrollbar>
           <TableContainer sx={{ minWidth: 800 }}>
@@ -229,7 +249,8 @@ export default function Component() {
                     product_cost,
                     product_price,
                     product_image,
-                    product_unit_store
+                    product_unit_store,
+                    product_status
                   } = row
                   const isItemSelected = selected.indexOf(_id) !== -1
 
@@ -266,9 +287,18 @@ export default function Component() {
                       <TableCell align='left'>{numeral(product_cost).format('0,0')}</TableCell>
                       <TableCell align='left'>{numeral(product_price).format('0,0')}</TableCell>
                       <TableCell align='left'>{numeral(product_unit_store).format('0,0')}</TableCell>
+                      <TableCell align='center'>
+                        <FormGroup>
+                          <FormControlLabel
+                            onChange={event => switchStatusProduct({ event, row })}
+                            control={<Switch checked={product_status} />}
+                            label={product_status ? 'ออนไลน์' : 'ออฟไลน์'}
+                          />
+                        </FormGroup>
+                      </TableCell>
 
                       <TableCell align='right'>
-                        <ProductMoreMenu id={_id} isProductList={isProductList} row={row} />
+                        <ProductMoreMenu id={_id} isProductList={filteredList} row={row} fetcherData={fetcherData} />
                       </TableCell>
                     </TableRow>
                   )

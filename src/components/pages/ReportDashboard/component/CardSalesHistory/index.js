@@ -28,6 +28,7 @@ import numeral from 'numeral'
 
 import ChartDateIncome from './ChartDateIncome'
 import ChartTypePrice from './ChartTypePrice'
+import ChartTopPriceProduct from './ChartTopPriceProduct'
 
 const TypographyHeaderText = styled(Typography)(({ theme }) => ({
   fontSize: '1.5rem',
@@ -44,9 +45,11 @@ export default function index() {
   const [isReportsDateNow, setReportsDateNow] = useState([])
   const [isDateSelect, setDateSelect] = useState(Date.now())
   const [isSummary, setSummary] = useState(0)
+  const [isTopProducts, setTopProducts] = useState([])
 
   useEffect(() => {
     funcGetReport()
+    fetchProductHistory()
   }, [])
 
   async function funcGetReport() {
@@ -90,6 +93,35 @@ export default function index() {
     })
     setSummary(summary)
     setReportsDateNow(filterDateNow)
+  }
+
+  const fetchProductHistory = async () => {
+    const isBranch = localStorage.getItem('branch')
+    const fetchHistory = await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/branch/${isBranch}`)
+    const fetchProducts = await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`)
+
+    const { data } = fetchHistory.data
+
+    const filterStatusPrice = data.filter(item => item.pdh_channel === 'ขาย (ธรรมดา)')
+    const newArrayHistory = []
+    filterStatusPrice.forEach(element => {
+      const idx = newArrayHistory.findIndex(item => item.pdh_product_id === element.pdh_product_id)
+      if (idx === -1) {
+        newArrayHistory.push(element)
+      } else {
+        newArrayHistory[idx].pdh_change_number += element.pdh_change_number
+      }
+    })
+    newArrayHistory.sort((a, b) => a.pdh_change_number - b.pdh_change_number)
+    const sliceHistory = newArrayHistory.slice(0, 5)
+    const findProductName = []
+    sliceHistory.forEach(element => {
+      const findData = fetchProducts.data.data.find(item => item._id === element.pdh_product_id)
+      if (findData) {
+        findProductName.push({ ...element, product_name: findData.product_name })
+      }
+    })
+    setTopProducts(findProductName)
   }
 
   return (
@@ -188,7 +220,9 @@ export default function index() {
           </Card>
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <Card>คิดไม่ออก</Card>
+          <Card>
+            <ChartTopPriceProduct isTopProducts={isTopProducts} />
+          </Card>
         </Grid>
       </Grid>
     </div>

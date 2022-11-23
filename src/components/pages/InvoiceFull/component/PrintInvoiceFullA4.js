@@ -61,7 +61,7 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
                 background: `url(${dimension.src})`
               }}
             >
-              ใบกำกับภาษี/ใบเสร็จรับเงิน
+             ใบเสร็จรับเงิน/ใบกำกับภาษี
             </h1>
             <div id='company' className='clearfix' style={{ float: 'right', textAlign: 'right', fontSize: '14px' }}>
               เลขที่ : <a style={{ fontSize: '12px' }}>{isReport.rif_tax_invoice_number_full} </a>
@@ -225,20 +225,15 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
                         {isReport &&
                           isReport.rif_detail &&
                           numeral(
-                            isReport.rif_detail
+                            ((isReport.rif_detail
                               .filter(item => item.product_pay_tax === false)
                               .reduce(
                                 (sum, value) => sum + value.amount * value.product_price - value.product_discount,
                                 0
                               ) -
-                              (isReport.rif_detail
-                                .filter(item => item.product_pay_tax === false)
-                                .reduce(
-                                  (sum, value) => sum + value.amount * value.product_price - value.product_discount,
-                                  0
-                                ) *
-                                7) /
-                                100
+                              isReport.rif_discount) *
+                              100) /
+                              107
                           ).format('0,0.00')}
                       </td>
                     </tr>
@@ -252,14 +247,15 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
                         {isReport &&
                           isReport.rif_detail &&
                           numeral(
-                            (isReport.rif_detail
+                            ((isReport.rif_detail
                               .filter(item => item.product_pay_tax === false)
                               .reduce(
                                 (sum, value) => sum + value.amount * value.product_price - value.product_discount,
                                 0
-                              ) *
+                              ) -
+                              isReport.rif_discount) *
                               7) /
-                              100
+                              107
                           ).format('0,0.00')}
                       </td>
                     </tr>

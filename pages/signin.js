@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles'
-import { Card, Link, Container, Typography } from '@mui/material'
+import { Card, Link, Container, Typography, Box } from '@mui/material'
 
 import LoginForm from '../src/components/auth/FormLogin'
 import useResponsive from '../src/hooks/useResponsive'
@@ -28,7 +28,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   top: 0,
   zIndex: 9,
   lineHeight: 0,
-  width: '85%',
+  width: '99%',
   display: 'flex',
   alignItems: 'center',
   position: 'absolute',
@@ -70,12 +70,22 @@ export default function Login() {
     <RootStyle>
       <HeaderStyle>
         {/* <img src='https://api.nbadigitalservice.com/static/images/icons/nbadigital.png' alt='login' width={'60px'} /> */}
-
-        {/* {smUp && (
-          <Typography variant='body2' sx={{ mt: { md: -2 } }}>
-            Don’t have an account? Get started
-          </Typography>
-        )} */}
+        <div />
+        {smUp && (
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              color: '#FFFFFF',
+              alignItems: 'right',
+              '& :not(:last-child)': { mr: 4 }
+            }}
+          >
+            <Link target='_blank' href='https://nba-pos-admin.nbadigitalservice.com'>
+              <a style={{ color: '#FFFFFF' }}> Admin Web</a>
+            </Link>
+          </Box>
+        )}
       </HeaderStyle>
 
       {mdUp && (
@@ -86,9 +96,9 @@ export default function Login() {
 
       <Container maxWidth='sm'>
         <ContentStyle>
-          {/* <Typography variant='h5' gutterBottom>
-            คิดคำไม่ออก POS
-          </Typography> */}
+          <Typography variant='h5' gutterBottom sx={{ color: '#FFFFFF' }}>
+            ยินดีต้อนรับสู่ระบบจัดการขายหน้าร้าน (POS)
+          </Typography>
           <LoginForm />
         </ContentStyle>
       </Container>

@@ -25,8 +25,7 @@ export default NextAuth({
           password: credentials.password,
           date: dayjs(Date.now()).format()
         }
-        console.log(payload)
-        
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_POS_BACKEND}/signin`, {
           method: 'POST',
           body: JSON.stringify(payload),
@@ -37,7 +36,6 @@ export default NextAuth({
           }
         })
         const data = await res.json()
-        console.log('data=>>>', data)
         if (data.status == 'ok') {
           if (data.user.status === false) {
             return null
@@ -53,7 +51,7 @@ export default NextAuth({
   secret: 'LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx5mLg=',
   session: {
     jwt: true,
-    maxAge: 24 * 60 * 60 * 2 // 2 day
+    maxAge: 24 * 60 * 60 * 1 // 1 day
     // updateAge: 24 * 60 * 60, // 24 hours
   },
 
@@ -73,7 +71,6 @@ export default NextAuth({
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.accessToken
       session.user = token.user
-      console.log('is Token', token)
 
       return session
     }

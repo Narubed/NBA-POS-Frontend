@@ -1,5 +1,5 @@
-const listReducer = (state = {}, action) => {
-  const newState = Object.assign({}, state)
+const listReducer = (state = [], action) => {
+  const newState = Object.assign([], state)
   switch (action.type) {
     case 'LISTITEM_ADD':
       newState = action.payload

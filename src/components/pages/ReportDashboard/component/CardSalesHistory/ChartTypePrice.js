@@ -41,7 +41,15 @@ export default function ChartTypePrice({ isReports }) {
 
     const config = {
       type: 'doughnut',
-      data: data
+      data: data,
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: 'ประวัติการชำระ'
+          }
+        }
+      }
     }
 
     const myLineChart = new Chart(ctx, config)

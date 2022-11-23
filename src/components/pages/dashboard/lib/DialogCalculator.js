@@ -34,7 +34,7 @@ export default function DialogCalculator({
   setDiscount,
   confirmOrder,
   isRadioTypePay,
-  setRadioTypePay,
+  handleSetRadioType,
   isReport
 }) {
   const componentToPrint = React.useRef(null)
@@ -191,13 +191,14 @@ export default function DialogCalculator({
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='row-radio-buttons-group'
               value={isRadioTypePay}
-              onChange={e => setRadioTypePay(e.target.value)}
+              onChange={e => handleSetRadioType(e.target.value)}
             >
               <FormControlLabel value='เงินสด' control={<Radio />} label='เงินสด' />
               <FormControlLabel value='โอนจ่าย' control={<Radio />} label='โอนจ่าย' />
               <FormControlLabel value='บัตรเครดิต' control={<Radio />} label='บัตรเครดิต' />
               <FormControlLabel value='อื่น ๆ' control={<Radio />} label='อื่น ๆ' />
             </RadioGroup>
+            {/* {isRadioTypePay === 'บัตรเครดิต' && <input type='text ' />} */}
           </FormControl>
 
           <FormControl fullWidth sx={{ m: 1, textAlign: 'right' }} variant='standard'>

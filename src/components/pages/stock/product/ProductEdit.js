@@ -48,7 +48,7 @@ const ButtonStyled = styled(Button)(({ theme }) => ({
   }
 }))
 
-function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts }) {
+function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts,fetcherData }) {
   const { data: session } = useSession()
   const router = useRouter()
   const dispatch = useDispatch()
@@ -133,7 +133,7 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts }) {
                 timer: 1500
               })
               setTimeout(() => {
-                router.replace('/')
+                fetcherData()
               }, 1500)
             }
           })
@@ -169,7 +169,7 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts }) {
                 timer: 1500
               })
               setTimeout(() => {
-                router.replace('/')
+                fetcherData()
               }, 1500)
             }
           })

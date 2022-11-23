@@ -133,20 +133,15 @@ export default function ShowDetailReport({ isReportList, row, getAllReport }) {
                       <TableCell colSpan={2}>ราคาก่อนคิดภาษีมูลค่าเพิ่ม</TableCell>
                       <TableCell align='right'>
                         {numeral(
-                          row.report_detail
+                          ((row.report_detail
                             .filter(item => item.product_pay_tax === false)
                             .reduce(
                               (sum, value) => sum + value.amount * value.product_price - value.product_discount,
                               0
                             ) -
-                            (row.report_detail
-                              .filter(item => item.product_pay_tax === false)
-                              .reduce(
-                                (sum, value) => sum + value.amount * value.product_price - value.product_discount,
-                                0
-                              ) *
-                              7) /
-                              100
+                            row.report_discount) *
+                            100) /
+                            107
                         ).format('0,0.00')}
                       </TableCell>
                     </TableRow>
@@ -156,14 +151,15 @@ export default function ShowDetailReport({ isReportList, row, getAllReport }) {
                       <TableCell align='right'>7 %</TableCell>
                       <TableCell align='right'>
                         {numeral(
-                          (row.report_detail
+                          ((row.report_detail
                             .filter(item => item.product_pay_tax === false)
                             .reduce(
                               (sum, value) => sum + value.amount * value.product_price - value.product_discount,
                               0
-                            ) *
+                            ) -
+                            row.report_discount) *
                             7) /
-                            100
+                            107
                         ).format('0,0.00')}
                       </TableCell>
                     </TableRow>

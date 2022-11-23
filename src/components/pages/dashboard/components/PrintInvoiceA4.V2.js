@@ -216,20 +216,19 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                         {isReport &&
                           isReport.report_detail &&
                           numeral(
-                            isReport.report_detail
-                              .filter(item => item.product_pay_tax === false)
-                              .reduce(
-                                (sum, value) => sum + value.amount * value.product_price - value.product_discount,
-                                0
-                              ) -
-                              (isReport.report_detail
-                                .filter(item => item.product_pay_tax === false)
-                                .reduce(
-                                  (sum, value) => sum + value.amount * value.product_price - value.product_discount,
-                                  0
-                                ) *
-                                7) /
-                                100
+                            isReport &&
+                              isReport.report_detail &&
+                              numeral(
+                                ((isReport.report_detail
+                                  .filter(item => item.product_pay_tax === false)
+                                  .reduce(
+                                    (sum, value) => sum + value.amount * value.product_price - value.product_discount,
+                                    0
+                                  ) -
+                                  isReport.report_discount) *
+                                  100) /
+                                  107
+                              ).format('0,0.00')
                           ).format('0,0.00')}
                       </td>
                     </tr>
@@ -243,14 +242,15 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                         {isReport &&
                           isReport.report_detail &&
                           numeral(
-                            (isReport.report_detail
+                            ((isReport.report_detail
                               .filter(item => item.product_pay_tax === false)
                               .reduce(
                                 (sum, value) => sum + value.amount * value.product_price - value.product_discount,
                                 0
-                              ) *
+                              ) -
+                              isReport.report_discount) *
                               7) /
-                              100
+                              107
                           ).format('0,0.00')}
                       </td>
                     </tr>

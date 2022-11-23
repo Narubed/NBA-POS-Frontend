@@ -19,6 +19,7 @@ import Box from '@mui/material/Box'
 
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import axios from 'axios'
+import dayjs from 'dayjs'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -51,7 +52,10 @@ export default function ChangeBranch({ funcGetBranch }) {
 
   const getBranchOwner = async () => {
     const getBranch = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/owner/${valueUsers._id}`)
-    const findOnlineBranch = getBranch.data.data.filter(item => item.branch_status === true)
+
+    const findOnlineBranch = getBranch.data.data.filter(
+      item => item.branch_status === true && dayjs(item.branch_date_end).format() > dayjs(Date.now()).format()
+    )
     setBranchs(findOnlineBranch)
   }
 

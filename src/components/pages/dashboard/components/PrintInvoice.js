@@ -126,17 +126,19 @@ export default function PrintInvoice({ componentToPrint, isReport }) {
                   {isReport &&
                     isReport.report_detail &&
                     numeral(
-                      isReport.report_detail
-                        .filter(item => item.product_pay_tax === false)
-                        .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0) -
-                        (isReport.report_detail
-                          .filter(item => item.product_pay_tax === false)
-                          .reduce(
-                            (sum, value) => sum + value.amount * value.product_price - value.product_discount,
-                            0
-                          ) *
-                          7) /
-                          100
+                      isReport &&
+                        isReport.report_detail &&
+                        numeral(
+                          ((isReport.report_detail
+                            .filter(item => item.product_pay_tax === false)
+                            .reduce(
+                              (sum, value) => sum + value.amount * value.product_price - value.product_discount,
+                              0
+                            ) -
+                            isReport.report_discount) *
+                            100) /
+                            107
+                        ).format('0,0.00')
                     ).format('0,0.00')}
                 </div>
               </div>
@@ -147,11 +149,12 @@ export default function PrintInvoice({ componentToPrint, isReport }) {
                   {isReport &&
                     isReport.report_detail &&
                     numeral(
-                      (isReport.report_detail
+                      ((isReport.report_detail
                         .filter(item => item.product_pay_tax === false)
-                        .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0) *
+                        .reduce((sum, value) => sum + value.amount * value.product_price - value.product_discount, 0) -
+                        isReport.report_discount) *
                         7) /
-                        100
+                        107
                     ).format('0,0.00')}
                 </div>
               </div>
@@ -186,6 +189,21 @@ export default function PrintInvoice({ componentToPrint, isReport }) {
             <div>ชำระด้วย</div>
             <div>{isReport && isReport.report_payment_type}</div>
           </div>
+          {isReport && isReport.report_payment_type === 'บัตรเครดิต' && (
+            <div style={{ justifyContent: 'space-between', display: 'flex', fontSize: '12px' }}>
+              <div>
+                <p style={{ fontSize: '12px' }}>เลขที่บัตร</p>
+              </div>
+
+              <div>
+                {' '}
+                <p style={{ fontSize: '12px' }}>
+                  {isReport.report_payment_number.slice(0, 4)}XXXXXXXX{isReport.report_payment_number.slice(-4)}
+                </p>
+              </div>
+            </div>
+          )}
+
           <div style={{ textAlign: 'center', borderBottom: '1px solid black' }}>
             <p style={{ fontSize: '10px', margenTop: '20px' }}>N = สินค้าที่ได้รับการยกเว้นภาศีมูลค่าเพิ่ม</p>
             <p className='centered'>

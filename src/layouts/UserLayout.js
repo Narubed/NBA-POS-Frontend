@@ -3,6 +3,7 @@ import { useSession, signOut } from 'next-auth/react'
 import { useEffect } from 'react'
 import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { useDispatch, useSelector } from 'react-redux'
 
 // ** Layout Imports
 // !Do not remove this Layout import
@@ -23,11 +24,23 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 import dayjs from 'dayjs'
 import Swal from 'sweetalert2'
 
+import { addItem, loading } from '../store/actions'
+
 const UserLayout = ({ children }) => {
   const { data: session } = useSession()
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const item = localStorage.getItem('shopping')
+    console.log("IS ITEM", item)
+    if (item !== null) {
+      console.log("ดขเา item")
+      dispatch(addItem(JSON.parse(item)))
+    }
+  }, [])
+
   if (session) {
     const { expires } = session
-    console.log(expires)
     if (dayjs(expires).format() < dayjs(Date.now()).format()) {
       localStorage.removeItem('branch')
       Swal.fire({

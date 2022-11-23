@@ -1,4 +1,5 @@
 // ** Next Imports
+import '../styles/globals.css'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { Router } from 'next/router'
@@ -55,13 +56,6 @@ const App = props => {
     emotionCache = clientSideEmotionCache,
     pageProps: { session, ...pageProps }
   } = props
-  console.log('isProps _app', session)
-
-  // if (!session) {
-  //   signOut()
-  // }
-
-  console.log(dayjs(Date.now()).format())
 
   // Variables
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
@@ -70,13 +64,19 @@ const App = props => {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>{`${themeConfig.templateName} - Material Design React Admin Template`}</title>
+        <title>{`${themeConfig.templateName} - NBADigitalServiceCenter`}</title>
         <meta
           name='description'
-          content={`${themeConfig.templateName} – Material Design React Admin Dashboard Template – is the most developer friendly & highly customizable Admin Dashboard Template based on MUI v5.`}
+          content={`${themeConfig.templateName} – ระบบจัดการหน้าร้าน ระบบจัดการสต๊อก ระบบซื้อขายสินค้า nbadigitalservice nba pos `}
         />
-        <meta name='keywords' content='Material Design, MUI, Admin Template, React Admin Template' />
-        <meta name='viewport' content='initial-scale=1, width=device-width' />
+        <meta
+          name='keywords'
+          content={`${themeConfig.templateName} – ระบบจัดการหน้าร้าน ระบบจัดการสต๊อก ระบบซื้อขายสินค้า nbadigitalservice nba pos `}
+        />
+        <meta
+          name='viewport'
+          content={`${themeConfig.templateName} – ระบบจัดการหน้าร้าน ระบบจัดการสต๊อก ระบบซื้อขายสินค้า nbadigitalservice nba pos `}
+        />
       </Head>
       <SessionProvider session={session}>
         <SettingsProvider>

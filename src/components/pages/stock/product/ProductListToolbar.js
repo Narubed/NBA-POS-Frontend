@@ -68,16 +68,31 @@ export default function CompanyListToolbar({
   onFilterName,
   onChangeStatus,
   onResetFilter,
+  isProductList,
   // eslint-disable-next-line camelcase
   selected_id
 }) {
   const [state, setState] = useState(false)
   const [statusOrder, setStatusOrder] = useState([])
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
-    const statusOrder = ['รอจัดส่ง', 'รอชำระเงิน', 'รอตรวจสอบ', 'จัดส่งสำเร็จ', 'ผู้ใช้ยกเลิก', 'ผู้ดูแลระบบยกเลิก']
-    setStatusOrder(statusOrder)
-  }, [])
+  // useEffect(async () => {
+  //   const statusOrder = ['รอจัดส่ง', 'รอชำระเงิน', 'รอตรวจสอบ', 'จัดส่งสำเร็จ', 'ผู้ใช้ยกเลิก', 'ผู้ดูแลระบบยกเลิก']
+  //   setStatusOrder(statusOrder)
+  // }, [])
+
+  const onClickSelect = props => {
+    setState(true)
+    const isTypes = []
+    isProductList.forEach(element => {
+      const findType = isTypes.findIndex(item => item === element.product_type)
+      if (findType === -1) {
+        isTypes.push(element.product_type)
+      }
+    })
+    setStatusOrder(isTypes)
+    console.log(isTypes)
+    console.log(isProductList)
+  }
 
   return (
     <RootStyle
@@ -111,9 +126,9 @@ export default function CompanyListToolbar({
           disableRipple
           color='inherit'
           endIcon={<Icon icon='fluent:globe-search-24-filled' width='22' height='22' />}
-          onClick={() => setState(true)}
+          onClick={onClickSelect}
         >
-          สถานะสินค้า&nbsp;
+          ประเภทสินค้า&nbsp;
         </Button>
       </Tooltip>
 
@@ -127,7 +142,7 @@ export default function CompanyListToolbar({
       >
         <Stack spacing={3} sx={{ p: 3 }}>
           <Typography variant='subtitle1' gutterBottom>
-            สถานะสินค้า
+            ประเภทสินค้า
           </Typography>
 
           <RadioGroup>

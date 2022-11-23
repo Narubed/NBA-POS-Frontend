@@ -38,7 +38,7 @@ export default function index({
   isDiscount,
   setDiscount,
   isRadioTypePay,
-  setRadioTypePay,
+  handleSetRadioType,
   confirmOrder
 }) {
   const dispatch = useDispatch()
@@ -129,7 +129,7 @@ export default function index({
 
         <DialogCalculator
           isRadioTypePay={isRadioTypePay}
-          setRadioTypePay={setRadioTypePay}
+          handleSetRadioType={handleSetRadioType}
           openCalculator={openCalculator}
           setCalculator={setCalculator}
           isDiscount={isDiscount}
