@@ -61,7 +61,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
             >
               ใบเสร็จรับเงิน
             </h1>
-            <div id='company' className='clearfix' style={{ float: 'right', textAlign: 'right', fontSize: '14px' }}>
+            <div id='company' className='clearfix' style={{ float: 'right', textAlign: 'right', fontSize: '14px', color: '#5D6975' }}>
               เลขที่ <a style={{ fontSize: '12px' }}>{isReport.report_tax_invoice_number_shot} </a>
               <br />
               วันที่ {isReport && dayjs(isReport.report_timestamp).add(543, 'year').locale('th').format('DD MMM YYYY')}
@@ -88,7 +88,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                 <a href='mailto:company@example.com'>company@example.com</a>
               </div> */}
             </div>
-            <div id='project' style={{ float: 'left', fontSize: '14px' }}>
+            <div id='project' style={{ float: 'left', fontSize: '14px', color: '#5D6975' }}>
               <div>
                 <span>นามลูกค้า :</span>{' '}
               </div>
@@ -111,7 +111,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                 marginTop: '20px'
               }}
             >
-              <thead style={{ borderTop: '3px solid #3D6975', backgroundColor: '#F0F8FF' }}>
+              <thead style={{ borderTop: '3px solid #3D6975', backgroundColor: '#F0F8FF', color: '#5D6975' }}>
                 <tr>
                   <th className='service' style={{ textAlign: 'center' }}>
                     ลำดับ
@@ -131,22 +131,22 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                       key={item._id}
                       style={index % 2 > 0 ? { backgroundColor: '#F8F8FF' } : { backgroundColor: '#FFFFFF' }}
                     >
-                      <td className='service' style={{ textAlign: 'center' }}>
+                      <td className='service' style={{ textAlign: 'center', color: '#5D6975' }}>
                         {index + 1}
                       </td>
-                      <td className='desc' style={{ verticalAlign: 'top' }}>
+                      <td className='desc' style={{ verticalAlign: 'top', color: '#5D6975' }}>
                         {item.product_name}
                       </td>
-                      <td className='unit' style={{ textAlign: 'center' }}>
+                      <td className='unit' style={{ textAlign: 'center', color: '#5D6975' }}>
                         {item.amount}
                       </td>
-                      <td className='qty' style={{ textAlign: 'center' }}>
+                      <td className='qty' style={{ textAlign: 'center', color: '#5D6975' }}>
                         {numeral(item.product_price).format('0,0.00')}
                       </td>
-                      <td className='total' style={{ textAlign: 'center' }}>
+                      <td className='total' style={{ textAlign: 'center', color: '#5D6975' }}>
                         {numeral(item.product_discount).format('0,0.00')}
                       </td>
-                      <td className='total' style={{ textAlign: 'center' }}>
+                      <td className='total' style={{ textAlign: 'center', color: '#5D6975' }}>
                         {numeral(item.product_price * item.amount - item.product_discount).format('0,0.00')}
                         {item.product_pay_tax === true && 'N'}
                       </td>
@@ -154,7 +154,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                   ))}
 
                 <tr>
-                  <td colSpan='3' style={{ fontSize: '1em', textAlign: 'center' }}>
+                  <td colSpan='3' style={{ fontSize: '1em', textAlign: 'center', color: '#5D6975' }}>
                     {isReport &&
                       isReport.report_detail &&
                       THBText(
@@ -165,12 +165,12 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                       )}
                   </td>
 
-                  <td colSpan='2' style={{ textAlign: 'right' }}>
+                  <td colSpan='2' style={{ textAlign: 'right', color: '#5D6975' }}>
                     {' '}
                     รวม/Total
                   </td>
 
-                  <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                  <td className='total' style={{ fontSize: '1em', textAlign: 'center', color: '#5D6975' }}>
                     {isReport && numeral(isReport.report_grand_total + isReport.report_discount).format('0,0.00')}
                   </td>
                 </tr>
@@ -178,22 +178,22 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                   <>
                     <tr>
                       <td colSpan='3' />
-                      <td colSpan='2' style={{ textAlign: 'right' }}>
+                      <td colSpan='2' style={{ textAlign: 'right', color: '#5D6975' }}>
                         {' '}
                         หักส่วนลด/Discount
                       </td>
 
-                      <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                      <td className='total' style={{ fontSize: '1em', textAlign: 'center', color: '#5D6975' }}>
                         {isReport && numeral(isReport.report_discount).format('0,0.00')}
                       </td>
                     </tr>
                     <tr>
                       <td colSpan='3' />
-                      <td colSpan='2' style={{ textAlign: 'right' }}>
+                      <td colSpan='2' style={{ textAlign: 'right', color: '#5D6975' }}>
                         สินค้าไม่เสียภาษี/NON VAT
                       </td>
 
-                      <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                      <td className='total' style={{ fontSize: '1em', textAlign: 'center', color: '#5D6975' }}>
                         {isReport &&
                           isReport.report_detail &&
                           numeral(
@@ -208,11 +208,11 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                     </tr>
                     <tr>
                       <td colSpan='3' />
-                      <td colSpan='2' style={{ textAlign: 'right' }}>
+                      <td colSpan='2' style={{ textAlign: 'right', color: '#5D6975' }}>
                         จำนวนเงินก่อนภาษีมูลค่าเพิ่ม/VAT EXC
                       </td>
 
-                      <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                      <td className='total' style={{ fontSize: '1em', textAlign: 'center', color: '#5D6975' }}>
                         {isReport &&
                           isReport.report_detail &&
                           numeral(
@@ -234,11 +234,11 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                     </tr>
                     <tr>
                       <td colSpan='3' />
-                      <td colSpan='2' style={{ textAlign: 'right' }}>
+                      <td colSpan='2' style={{ textAlign: 'right', color: '#5D6975' }}>
                         {`ภาษี ${(TAX_RATE * 100).toFixed(0)} %`}
                       </td>
 
-                      <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                      <td className='total' style={{ fontSize: '1em', textAlign: 'center', color: '#5D6975' }}>
                         {isReport &&
                           isReport.report_detail &&
                           numeral(
@@ -258,12 +258,12 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                 )}
                 <tr>
                   <td colSpan='3' />
-                  <td colSpan='2' style={{ textAlign: 'right' }}>
+                  <td colSpan='2' style={{ textAlign: 'right', color: '#5D6975' }}>
                     {' '}
                     จำนวนเงินรวมทั้งสิ้น/Grand Total
                   </td>
 
-                  <td className='total' style={{ fontSize: '1em', textAlign: 'center' }}>
+                  <td className='total' style={{ fontSize: '1em', textAlign: 'center', color: '#5D6975' }}>
                     {isReport &&
                       isReport.report_detail &&
                       numeral(
