@@ -88,6 +88,12 @@ export default function Component() {
   const { data: session } = useSession()
   const dispatch = useDispatch()
   const router = useRouter()
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': 'Bearer ' + localStorage.getItem('token')
+    }
+  }
 
   const [page, setPage] = useState(0)
   const [order, setOrder] = useState('asc')
@@ -103,12 +109,12 @@ export default function Component() {
     const isBranch = localStorage.getItem('branch')
 
     const getProductsHistory = await axios.get(
-      `${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/branch/${isBranch}`
+      `${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/branch/${isBranch}`,config
     )
-    const getReport = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/branch/${isBranch}`)
+    const getReport = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/branch/${isBranch}`,config)
 
     const getInvoiceFull = await axios.get(
-      `${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full/branch/${isBranch}`
+      `${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full/branch/${isBranch}`,config
     )
     console.log(getInvoiceFull)
 

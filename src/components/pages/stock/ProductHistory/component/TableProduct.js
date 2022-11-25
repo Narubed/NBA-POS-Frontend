@@ -80,6 +80,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map(el => el[0])
 }
 
+
 export default function Component({ findProducthistory, isSelectedProduct }) {
   const dispatch = useDispatch()
   const router = useRouter()
@@ -92,11 +93,17 @@ export default function Component({ findProducthistory, isSelectedProduct }) {
   const [filterName, setFilterName] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': `Bearer ${localStorage.getItem('token')}`
+    }
+  }
   useEffect(async () => {
     dispatch(loading(true))
     const isBranch = localStorage.getItem('branch')
 
-    const getProducts = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`)
+    const getProducts = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`,config)
     if (getProducts || getProducts.data.data) {
       const reverseProducts = getProducts.data.data.reverse()
       setProductList(reverseProducts)

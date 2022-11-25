@@ -56,6 +56,12 @@ export default function CheckOrderMoreMenu({ row, id, fetcherData }) {
   const [showDrawerEdit, setDrawerEdit] = useState(false)
   const [isProducts, setProducts] = useState([])
 
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': `Bearer ${localStorage.getItem('token')}`
+    }
+  }
   const showDetail = () => {
     setIsOpen(false)
     setOpenDetail(true)
@@ -65,7 +71,7 @@ export default function CheckOrderMoreMenu({ row, id, fetcherData }) {
     setIsOpen(false)
     setDrawerEdit(true)
 
-    const getNewData = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${row._id}`)
+    const getNewData = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${row._id}`, config)
     setProducts(getNewData.data.data)
 
     localStorage.setItem('product_id', row._id)
@@ -106,7 +112,12 @@ export default function CheckOrderMoreMenu({ row, id, fetcherData }) {
           </MenuItem>
         </Menu>
         <ProductDetail item={row} isOpenDetail={isOpenDetail} setOpenDetail={setOpenDetail} />
-        <ProductEdit showDrawerEdit={showDrawerEdit} setDrawerEdit={setDrawerEdit} isProducts={row} fetcherData={fetcherData}/>
+        <ProductEdit
+          showDrawerEdit={showDrawerEdit}
+          setDrawerEdit={setDrawerEdit}
+          isProducts={row}
+          fetcherData={fetcherData}
+        />
       </>
     </>
   )

@@ -32,9 +32,9 @@ const UserLayout = ({ children }) => {
   const dispatch = useDispatch()
   useEffect(() => {
     const item = localStorage.getItem('shopping')
-    console.log("IS ITEM", item)
+
     if (item !== null) {
-      console.log("ดขเา item")
+
       dispatch(addItem(JSON.parse(item)))
     }
   }, [])

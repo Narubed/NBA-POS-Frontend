@@ -62,6 +62,7 @@ EmployeeListToolbar.propTypes = {
   onResetFilter: PropTypes.func
 }
 
+
 export default function EmployeeListToolbar({ numSelected, filterName, onFilterName }) {
   return (
     <RootStyle

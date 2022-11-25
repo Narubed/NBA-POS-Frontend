@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Main from '../src/components/auth/pages/main'
 import Dashboard from '../src/components/pages/dashboard'
@@ -18,6 +18,7 @@ export default function Component() {
     const getLocalStorageBranch = localStorage.getItem('branch')
     if (!getLocalStorageBranch) {
       localStorage.setItem('branch', session.user.branch)
+      localStorage.setItem('token', session.user.token)
     }
 
     return (

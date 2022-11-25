@@ -135,25 +135,18 @@ function dashboard() {
     }
   }, [])
 
-  // useEffect(() => {
-  //   function checkUserData() {
-  //     const item = localStorage.getItem('shopping')
-  //     if (item) {
-  //       console.log(JSON.parse(item))
 
-  //       // setOrder(JSON.parse(item))
-  //       dispatch(addItem(JSON.parse(item)))
-  //     }
-  //   }
-  //   window.addEventListener('storage', checkUserData)
-  //   return () => {
-  //     window.removeEventListener('storage', checkUserData)
-  //   }
-  // }, [])
 
   const allProduct = async () => {
     const isBranch = localStorage.getItem('branch')
-    const getProducts = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`)
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': 'Bearer ' + localStorage.getItem('token')
+      }
+    }
+
+    const getProducts = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`, config)
     if (getProducts || getProducts.data.data) {
       const filterStatussProduct = getProducts.data.data.filter(item => item.product_status === true)
       setProducts(filterStatussProduct.reverse())
@@ -209,13 +202,23 @@ function dashboard() {
   const confirmOrder = async props => {
     dispatch(loading(true))
     const isBranch = localStorage.getItem('branch')
-
-    const isNewBranch = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranch}`)
-
-    const isReport = await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/invoice_shot`, {
-      date: dayjs(Date.now()).format(),
-      branch: isBranch
-    })
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': 'Bearer ' + localStorage.getItem('token')
+      }
+    }
+    const isNewBranch = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranch}`, config)
+    const isReport = await axios.post(
+      `${process.env.NEXT_PUBLIC_POS_BACKEND}/report/invoice_shot`,
+      {
+        body: {
+          date: dayjs(Date.now()).format(),
+          branch: isBranch
+        }
+      },
+      config
+    )
     if (isNewBranch || isNewBranch.data) {
       const { invoice_shot } = isReport.data
 
@@ -244,8 +247,14 @@ function dashboard() {
       }
 
       const responseReport = []
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'auth-token': 'Bearer ' + localStorage.getItem('token')
+        }
+      }
       await axios
-        .post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report`, dataReport)
+        .post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report`, dataReport, config)
         .then(res => (responseReport = res.data.report))
       await setReport(responseReport)
       valueListProduct.forEach(async element => {
@@ -264,10 +273,14 @@ function dashboard() {
           pdh_make_list: session.user.name,
           pdh_timestamp: dayjs(Date.now()).format()
         }
-        await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history`, postProductHistory)
-        await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${element._id}`, {
-          product_unit_store: newUnitStore
-        })
+        await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history`, postProductHistory, config)
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${element._id}`,
+          {
+            product_unit_store: newUnitStore
+          },
+          config
+        )
       })
       setRadioTypePay('เงินสด')
       setInputCredit('')

@@ -26,9 +26,7 @@ import {
   TablePagination,
   Chip
 } from '@mui/material'
-import axios from 'axios'
-import Swal from 'sweetalert2'
-import Image from 'next/image'
+
 
 // images
 import imagesicon from '../../../../../../public/images/products/NoImage.png'

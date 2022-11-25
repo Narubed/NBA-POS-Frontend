@@ -51,7 +51,7 @@ const FormLogin = () => {
       } else {
         setError(null)
       }
-
+      console.log(res)
       if (res.url) {
         Swal.fire({
           icon: 'success',

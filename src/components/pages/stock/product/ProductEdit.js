@@ -48,8 +48,9 @@ const ButtonStyled = styled(Button)(({ theme }) => ({
   }
 }))
 
-function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts,fetcherData }) {
+function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts, fetcherData }) {
   const { data: session } = useSession()
+
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -68,6 +69,14 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts,fetcherData }) 
   const [imgSrc, setImgSrc] = useState(null)
   const [file, setfile] = useState([])
 
+  
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': `Bearer ${localStorage.getItem('token')}`
+    }
+  }
+  
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
   }
@@ -84,7 +93,7 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts,fetcherData }) 
 
   const headleSubmit = async () => {
     const isBranch = localStorage.getItem('branch')
-    const getProducts = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`)
+    const getProducts = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`, config)
     if (getProducts || getProducts.data.data) {
       const findByID = getProducts.data.data.find(
         item =>
@@ -123,8 +132,11 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts,fetcherData }) 
             if (result.isConfirmed) {
               dispatch(loading(true))
               await checkProductHistory()
-              await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${isProducts._id}`, formData)
-              await axios.delete(`${process.env.NEXT_PUBLIC_POS_BACKEND}/delete_image/${isProducts.product_image}`)
+              await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${isProducts._id}`, formData, config)
+              await axios.delete(
+                `${process.env.NEXT_PUBLIC_POS_BACKEND}/delete_image/${isProducts.product_image}`,
+                config
+              )
               dispatch(loading(false))
               Swal.fire({
                 icon: 'success',
@@ -160,7 +172,7 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts,fetcherData }) 
             if (result.isConfirmed) {
               dispatch(loading(true))
               await checkProductHistory()
-              await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${isProducts._id}`, data)
+              await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${isProducts._id}`, data, config)
               dispatch(loading(false))
               Swal.fire({
                 icon: 'success',
@@ -180,10 +192,14 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts,fetcherData }) 
 
   const checkProductHistory = async () => {
     if (parseFloat(values.product_unit_store) !== parseFloat(isProducts.product_unit_store)) {
-      const getReference = await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/reference_stock`, {
-        branch: isProducts.product_branch_id,
-        date: dayjs(Date.now()).format()
-      })
+      const getReference = await axios.post(
+        `${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/reference_stock`,
+        {
+          branch: isProducts.product_branch_id,
+          date: dayjs(Date.now()).format()
+        },
+        config
+      )
 
       const editStockProductHistory = {
         pdh_branch_id: isProducts.product_branch_id,
@@ -198,13 +214,17 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts,fetcherData }) 
         pdh_make_list: session.user.name,
         pdh_timestamp: dayjs(Date.now()).format()
       }
-      await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history`, editStockProductHistory)
+      await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history`, editStockProductHistory, config)
     }
     if (parseFloat(values.product_cost) !== parseFloat(isProducts.product_cost)) {
-      const getReference = await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/reference_cost`, {
-        branch: isProducts.product_branch_id,
-        date: dayjs(Date.now()).format()
-      })
+      const getReference = await axios.post(
+        `${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/reference_cost`,
+        {
+          branch: isProducts.product_branch_id,
+          date: dayjs(Date.now()).format()
+        },
+        config
+      )
 
       const editStockProductHistory = {
         pdh_branch_id: isProducts.product_branch_id,
@@ -219,13 +239,17 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts,fetcherData }) 
         pdh_make_list: session.user.name,
         pdh_timestamp: dayjs(Date.now()).format()
       }
-      await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history`, editStockProductHistory)
+      await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history`, editStockProductHistory, config)
     }
     if (parseFloat(values.product_price) !== parseFloat(isProducts.product_price)) {
-      const getReference = await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/reference_price`, {
-        branch: isProducts.product_branch_id,
-        date: dayjs(Date.now()).format()
-      })
+      const getReference = await axios.post(
+        `${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/reference_price`,
+        {
+          branch: isProducts.product_branch_id,
+          date: dayjs(Date.now()).format()
+        },
+        config
+      )
 
       const editStockProductHistory = {
         pdh_branch_id: isProducts.product_branch_id,
@@ -240,7 +264,7 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts,fetcherData }) 
         pdh_make_list: session.user.name,
         pdh_timestamp: dayjs(Date.now()).format()
       }
-      await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history`, editStockProductHistory)
+      await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history`, editStockProductHistory, config)
     }
   }
 

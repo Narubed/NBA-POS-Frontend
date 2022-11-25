@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useSession } from 'next-auth/react'
 
 // ** Next Import
-import { useRouter } from 'next/router'
+import { useRouter, Link } from 'next/router'
 import { signOut } from 'next-auth/react'
 
 // ** MUI Imports
@@ -63,6 +63,10 @@ const UserDropdown = () => {
     setAnchorEl(null)
   }
 
+  const handleDisplay = url => {
+    window.open(url, '_blank', 'noopener,noreferrer')
+  }
+
   const styles = {
     py: 2,
     px: 4,
@@ -82,8 +86,17 @@ const UserDropdown = () => {
   }, [session])
 
   const funcGetBranch = async () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': `Bearer ${localStorage.getItem('token')}`
+      }
+    }
+
     const isBranchid = localStorage.getItem('branch')
-    await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranchid}`).then(res => setBranch(res.data.data))
+    await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranchid}`, config).then(res =>
+      setBranch(res.data.data)
+    )
   }
 
   return (
@@ -139,6 +152,13 @@ const UserDropdown = () => {
           </Box>
         </MenuItem>
         <ChangeBranch funcGetBranch={funcGetBranch} />
+
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDisplay('/customer/display/')}>
+          <Box sx={styles}>
+            <HelpCircleOutline sx={{ marginRight: 2 }} />
+            หน้าจอฝั่งลูกค้า
+          </Box>
+        </MenuItem>
 
         {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>

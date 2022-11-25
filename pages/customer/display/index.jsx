@@ -1,5 +1,12 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 // ** Next Import
+import React, { useEffect, useState } from 'react'
+import { useSession, signIn } from 'next-auth/react'
+import { useDispatch } from 'react-redux'
 import Link from 'next/link'
+
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import { Carousel } from 'react-responsive-carousel'
 
 // ** MUI Components
 import Button from '@mui/material/Button'
@@ -8,10 +15,13 @@ import Typography from '@mui/material/Typography'
 import { Box, Grid } from '@mui/material'
 
 // ** Layout Import
+import Main from '../../../src/components/auth/pages/main'
 import BlankLayout from '../../../src/@core/layouts/BlankLayout'
+import { addItem, loading } from '../../../src/store/actions'
+import Image from 'next/image'
 
 // ** Demo Imports
-// import FooterIllustrations from '../src/views/pages/misc/FooterIllustrations'
+// import FooterIllustrations from '../src/views/pages/misc/FooterIllustrations' ../../../store/actions
 
 // ** Styled Components
 const BoxWrapper = styled(Box)(({ theme }) => ({
@@ -23,11 +33,14 @@ const BoxWrapper = styled(Box)(({ theme }) => ({
 const Img = styled('img')(({ theme }) => ({
   marginBottom: theme.spacing(10),
   [theme.breakpoints.down('lg')]: {
-    height: 450,
+    height: '100%',
     marginTop: theme.spacing(10)
   },
   [theme.breakpoints.down('md')]: {
-    height: 400
+    height: '100%'
+  },
+  [theme.breakpoints.down('xs')]: {
+    height: '100%'
   },
   [theme.breakpoints.up('lg')]: {
     marginTop: theme.spacing(13)
@@ -35,6 +48,29 @@ const Img = styled('img')(({ theme }) => ({
 }))
 
 const CustomerDisplay = () => {
+  const { data: session } = useSession()
+  const dispatch = useDispatch()
+  if (!session) return <Main signIn={signIn} />
+
+  useEffect(() => {
+    if (session) {
+      function checkUserData() {
+        const item = localStorage.getItem('shopping')
+        if (item) {
+          console.log(JSON.parse(item))
+
+          // setOrder(JSON.parse(item))
+          // dispatch(addItem(JSON.parse(item)))
+        }
+      }
+      window.addEventListener('storage', checkUserData)
+      
+return () => {
+        window.removeEventListener('storage', checkUserData)
+      }
+    }
+  }, [session])
+
   return (
     <Grid
       container
@@ -43,33 +79,25 @@ const CustomerDisplay = () => {
         background: '#000000',
         backgroundSize: 'cover',
         height: '100vh',
-        padding: 5,
+        padding: 0,
         backgroundPosition: 'top'
       }}
     >
-      <Grid item xs={6} md={6}>
+      <Grid item xs={12} md={6}>
         123
       </Grid>
-      <Grid item xs={6} md={6}>
-        <Box sx={{ p: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-          <BoxWrapper>
-            <Typography variant='h1'>404</Typography>
-            <Typography variant='h5' sx={{ mb: 1, fontSize: '1.5rem !important' }}>
-              ไม่มีหน้าที่ต้องการค้นหา ⚠️
-            </Typography>
-            <Typography variant='body2'>We couldn&prime;t find the page you are looking for.</Typography>
-          </BoxWrapper>
-          <Img
-            height='400'
-            alt='error-illustration'
-            src='https://foodexpress.nbadigitalservice.com/static/illustrations/illustration_404.svg'
-          />
-          <Link passHref href='/'>
-            <Button component='a' variant='contained' sx={{ px: 5.5 }}>
-              กลับไปสู่หน้าหลัก
-            </Button>
-          </Link>
-        </Box>
+      <Grid item xs={12} md={6} p={0}>
+        <Carousel autoPlay infiniteLoop showStatus showThumbs={false}>
+          <div>
+            <img src='https://drive.google.com/uc?export=view&id=1LhyBE6Sdt8SqDKfGmro3cs9zBTdofwvh' />
+          </div>
+          <div>
+            <img src='https://drive.google.com/uc?export=view&id=1LhyBE6Sdt8SqDKfGmro3cs9zBTdofwvh' />
+          </div>
+          <div>
+            <img src='https://drive.google.com/uc?export=view&id=1LhyBE6Sdt8SqDKfGmro3cs9zBTdofwvh' />
+          </div>
+        </Carousel>
       </Grid>
     </Grid>
   )

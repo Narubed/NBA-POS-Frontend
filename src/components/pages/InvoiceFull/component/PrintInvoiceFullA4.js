@@ -61,22 +61,28 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
                 background: `url(${dimension.src})`
               }}
             >
-             ใบเสร็จรับเงิน/ใบกำกับภาษี
+              ใบเสร็จรับเงิน/ใบกำกับภาษี
             </h1>
-            <div id='company' className='clearfix' style={{ float: 'right', textAlign: 'right', fontSize: '14px' }}>
-              เลขที่ : <a style={{ fontSize: '12px' }}>{isReport.rif_tax_invoice_number_full} </a>
+            <div
+              id='company'
+              className='clearfix'
+              style={{ float: 'right', textAlign: 'right', fontSize: '14px', color: '#5D6975' }}
+            >
+              เลขที่ : <a style={{ color: '#5D6975' }}>{isReport.rif_tax_invoice_number_full} </a>
               <br />
-              เลขที่ใบกำกับภาษีอย่างย่อ : <a style={{ fontSize: '12px' }}>{isReport.rif_tax_invoice_number_shot} </a>
+              เลขที่ใบกำกับภาษีอย่างย่อ : <a style={{ color: '#5D6975' }}>{isReport.rif_tax_invoice_number_shot} </a>
               <br />
               วันที่ :{' '}
               {isReport && dayjs(isReport.report_timestamp).add(543, 'year').locale('th').format('DD MMM YYYY')}
               <br />
               {isReport && (
-                <a>{isReport.rif_vat_name !== 'ไม่มี' ? isReport.rif_vat_name : isReport.rif_branch_name}</a>
+                <a style={{ color: '#5D6975' }}>
+                  {isReport.rif_vat_name !== 'ไม่มี' ? isReport.rif_vat_name : isReport.rif_branch_name}
+                </a>
               )}{' '}
               <br />
-              {isReport && <a>{isReport.rif_address}</a>} <br />
-              {isReport && <a>เบอร์โทรศัพท์: {isReport.rif_vat_phone}</a>} <br />
+              {isReport && <a style={{ color: '#5D6975' }}>{isReport.rif_address}</a>} <br />
+              {isReport && <a style={{ color: '#5D6975' }}>เบอร์โทรศัพท์: {isReport.rif_vat_phone}</a>} <br />
               {isReport &&
                 isReport.rif_vat_number !== 'ไม่มี' &&
                 `เลขประจำตัวผู้เสียภาษี : ${isReport.rif_vat_number}`}{' '}
@@ -92,7 +98,7 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
                 <a href='mailto:company@example.com'>company@example.com</a>
               </div> */}
             </div>
-            <div id='project' style={{ float: 'left', fontSize: '14px' }}>
+            <div id='project' style={{ float: 'left', fontSize: '14px', color: '#5D6975' }}>
               {isReport && (
                 <>
                   <div>
@@ -299,13 +305,13 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
               }}
             >
               <Grid display='flex' container sx={{ borderBottom: '2px solid #C1CED9', paddingBottom: '8px' }}>
-                <Grid xs={8} sm={8} md={8} lg={8} sx={{ borderRight: '2px solid #C1CED9' }}>
-                  <a>
+                <Grid xs={8} sm={8} md={8} lg={8} sx={{ borderRight: '2px solid #C1CED9', color: '#5D6975' }}>
+                  <a style={{ color: '#5D6975' }}>
                     ชำระด้วย/PAYMENT BY: <Checkbox sx={{ width: '15px', height: '15px' }} /> เงินโอน/TRANSFER{' '}
                     <Checkbox sx={{ width: '15px', height: '15px' }} /> เงินสด/CASH
                   </a>
                   <br />
-                  <a>
+                  <a style={{ color: '#5D6975' }}>
                     ชำระด้วย/PAYMENT BY: <Checkbox sx={{ width: '15px', height: '15px' }} /> เช็ค/CHEQUE{' '}
                     <Checkbox sx={{ width: '15px', height: '15px' }} /> บัตรเครดิต/CREDIT CARD
                   </a>
@@ -320,8 +326,10 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
                   </div>
                   ลงชื่อ ______________________________ ผู้รับเงิน/เช็ค วันที่ ___________________________
                 </Grid>
-                <Grid xs={4} sm={4} md={4} lg={4} sx={{ textAlign: 'center' }}>
-                  <a>{isReport.rif_vat_name !== 'ไม่มี' ? isReport.rif_vat_name : isReport.rif_branch_name}</a>
+                <Grid xs={4} sm={4} md={4} lg={4} sx={{ textAlign: 'center', color: '#5D6975' }}>
+                  <a style={{ color: '#5D6975' }}>
+                    {isReport.rif_vat_name !== 'ไม่มี' ? isReport.rif_vat_name : isReport.rif_branch_name}
+                  </a>
                   <br />
                   <br />
                   <br />

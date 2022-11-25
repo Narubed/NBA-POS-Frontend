@@ -79,6 +79,12 @@ function ProductCreate({ showDrawerCreate, setDrawerCreate }) {
   const [file, setfile] = useState([])
   const [isAlert, setAlert] = useState(false)
 
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': `Bearer ${localStorage.getItem('token')}`
+    }
+  }
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
   }
@@ -106,7 +112,7 @@ function ProductCreate({ showDrawerCreate, setDrawerCreate }) {
       }, 2000)
     } else {
       const isBranch = localStorage.getItem('branch')
-      const getProducts = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`)
+      const getProducts = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`, config)
       if (getProducts || getProducts.data.data) {
         const findByID = getProducts.data.data.find(item => item.product_id === values.product_id)
         if (findByID) {
@@ -142,7 +148,7 @@ function ProductCreate({ showDrawerCreate, setDrawerCreate }) {
             }).then(async result => {
               if (result.isConfirmed) {
                 dispatch(loading(true))
-                await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products`, formData)
+                await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products`, formData, config)
                 dispatch(loading(false))
                 Swal.fire({
                   icon: 'success',
@@ -178,7 +184,7 @@ function ProductCreate({ showDrawerCreate, setDrawerCreate }) {
             }).then(async result => {
               if (result.isConfirmed) {
                 dispatch(loading(true))
-                await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products`, data)
+                await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products`, data, config)
                 dispatch(loading(false))
                 Swal.fire({
                   icon: 'success',

@@ -29,6 +29,7 @@ import DialogCreateInvoice from './DialogCreateInvoice'
 import router from 'next/router'
 import { useSession } from 'next-auth/react'
 
+
 export default function HeaderCardDetail({ row, setDialog, getAllReport }) {
   const { data: session } = useSession()
   const componentToPrint = React.useRef(null)

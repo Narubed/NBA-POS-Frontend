@@ -61,6 +61,13 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 }))
 
 function ProductCreate({ showDrawerCreate, setDrawerCreate, findEmployees }) {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': 'Bearer ' + localStorage.getItem('token')
+    }
+  }
+
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -129,7 +136,7 @@ function ProductCreate({ showDrawerCreate, setDrawerCreate, findEmployees }) {
         }).then(async result => {
           if (result.isConfirmed) {
             dispatch(loading(true))
-            await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee`, formData)
+            await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee`, formData, config)
             setDefaultValue()
             dispatch(loading(false))
             Swal.fire({
@@ -164,7 +171,7 @@ function ProductCreate({ showDrawerCreate, setDrawerCreate, findEmployees }) {
         }).then(async result => {
           if (result.isConfirmed) {
             dispatch(loading(true))
-            await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee`, data)
+            await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee`, data, config)
             setDefaultValue()
             dispatch(loading(false))
             Swal.fire({

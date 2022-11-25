@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
+import { useDispatch } from 'react-redux'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -20,6 +21,7 @@ import Box from '@mui/material/Box'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import axios from 'axios'
 import dayjs from 'dayjs'
+import { addItem, loading } from '../../../../store/actions'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -41,17 +43,24 @@ const styles = {
 
 export default function ChangeBranch({ funcGetBranch }) {
   const router = useRouter()
+  const dispatch = useDispatch()
   const { data: session } = useSession()
   const valueUsers = session.user
   const [open, setOpen] = React.useState(false)
   const [isBranchs, setBranchs] = React.useState([])
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': `Bearer ${localStorage.getItem('token')}`
+    }
+  }
 
   useEffect(() => {
     getBranchOwner()
   }, [])
 
   const getBranchOwner = async () => {
-    const getBranch = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/owner/${valueUsers._id}`)
+    const getBranch = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/owner/${valueUsers._id}`, config)
 
     const findOnlineBranch = getBranch.data.data.filter(
       item => item.branch_status === true && dayjs(item.branch_date_end).format() > dayjs(Date.now()).format()
@@ -61,6 +70,7 @@ export default function ChangeBranch({ funcGetBranch }) {
 
   const onClickBranch = item => {
     localStorage.setItem('branch', item._id)
+    dispatch(addItem([]))
     if (router.pathname === '/') {
       router.push('/report/dashboard/')
     } else {
@@ -82,6 +92,7 @@ export default function ChangeBranch({ funcGetBranch }) {
         </MenuItem>
       )}
       <Dialog
+        fullWidth
         open={open}
         TransitionComponent={Transition}
         keepMounted

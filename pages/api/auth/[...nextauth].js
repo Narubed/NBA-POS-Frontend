@@ -36,6 +36,7 @@ export default NextAuth({
           }
         })
         const data = await res.json()
+
         if (data.status == 'ok') {
           if (data.user.status === false) {
             return null
@@ -73,6 +74,10 @@ export default NextAuth({
       session.user = token.user
 
       return session
+    },
+
+    async authToken({ session }) {
+      return session.user.token
     }
   },
 

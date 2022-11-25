@@ -62,7 +62,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
               ใบเสร็จรับเงิน
             </h1>
             <div id='company' className='clearfix' style={{ float: 'right', textAlign: 'right', fontSize: '14px', color: '#5D6975' }}>
-              เลขที่ <a style={{ fontSize: '12px' }}>{isReport.report_tax_invoice_number_shot} </a>
+              เลขที่ <a style={{ fontSize: '12px', color: '#5D6975' }}>{isReport.report_tax_invoice_number_shot} </a>
               <br />
               วันที่ {isReport && dayjs(isReport.report_timestamp).add(543, 'year').locale('th').format('DD MMM YYYY')}
               <br />

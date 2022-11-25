@@ -94,7 +94,12 @@ export default function Component() {
   if (!session) {
     return <Main signIn={signIn} />
   }
-
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': 'Bearer ' + localStorage.getItem('token')
+    }
+  }
   useEffect(() => {
     if (session) {
       if (
@@ -125,7 +130,7 @@ export default function Component() {
   const findEmployees = async () => {
     dispatch(loading(true))
     const isBranch = localStorage.getItem('branch')
-    const getEmployee = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee/branch/${isBranch}`)
+    const getEmployee = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee/branch/${isBranch}`, config)
     if (getEmployee || getEmployee.data.data) {
       const reverseEmployee = getEmployee.data.data.reverse()
       setEmployeeList(reverseEmployee)
@@ -176,9 +181,13 @@ export default function Component() {
 
   const onChangeSwitchStatus = async event => {
     dispatch(loading(true))
-    await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee/${event.row._id}`, {
-      employee_status: event.e.target.checked
-    })
+    await axios.put(
+      `${process.env.NEXT_PUBLIC_POS_BACKEND}/employee/${event.row._id}`,
+      {
+        employee_status: event.e.target.checked
+      },
+      config
+    )
     await findEmployees()
     dispatch(loading(false))
   }

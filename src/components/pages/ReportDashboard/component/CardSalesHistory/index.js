@@ -39,6 +39,14 @@ const TypographyHeaderText = styled(Typography)(({ theme }) => ({
   fontWeight: theme.typography.fontWeightMedium
 }))
 
+
+const config = {
+  headers: {
+    'Content-Type': 'application/json',
+    'auth-token': 'Bearer ' + localStorage.getItem('token')
+  }
+}
+
 export default function index() {
   const { data: session } = useSession()
   const [isReports, setReports] = useState([])
@@ -55,7 +63,7 @@ export default function index() {
   async function funcGetReport() {
     let getReport = []
     const isBranch = localStorage.getItem('branch')
-    await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/branch/${isBranch}`).then(
+    await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/branch/${isBranch}`,config).then(
       res => (getReport = res.data.data)
     )
     if (getReport.length !== 0) {
@@ -97,8 +105,8 @@ export default function index() {
 
   const fetchProductHistory = async () => {
     const isBranch = localStorage.getItem('branch')
-    const fetchHistory = await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/branch/${isBranch}`)
-    const fetchProducts = await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`)
+    const fetchHistory = await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/branch/${isBranch}`,config)
+    const fetchProducts = await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`,config)
 
     const { data } = fetchHistory.data
 

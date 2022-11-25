@@ -105,6 +105,13 @@ export default function Component() {
   const { data: session } = useSession()
   if (!session) return <Main signIn={signIn} />
 
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': `Bearer ${localStorage.getItem('token')}`
+    }
+  }
+
   const [isReportList, setReportList] = useState([])
   const [page, setPage] = useState(0)
   const [order, setOrder] = useState('asc')
@@ -124,7 +131,7 @@ export default function Component() {
     dispatch(loading(true))
     const isBranch = localStorage.getItem('branch')
 
-    const getReport = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/branch/${isBranch}`)
+    const getReport = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/branch/${isBranch}`, config)
     if (getReport || getReport.data.data) {
       const reverseReport = getReport.data.data.reverse()
       setReportList(reverseReport)

@@ -49,7 +49,15 @@ const ButtonStyled = styled(Button)(({ theme }) => ({
   }
 }))
 
+
+
 function ProductEdit({ showDrawerEdit, setDrawerEdit, row, findEmployees }) {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': 'Bearer ' + localStorage.getItem('token')
+    }
+  }
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -118,8 +126,8 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, row, findEmployees }) {
         }).then(async result => {
           if (result.isConfirmed) {
             dispatch(loading(true))
-            await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee/${row._id}`, formData)
-            await axios.delete(`${process.env.NEXT_PUBLIC_POS_BACKEND}/delete_image/${row.product_image}`)
+            await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee/${row._id}`, formData, config)
+            await axios.delete(`${process.env.NEXT_PUBLIC_POS_BACKEND}/delete_image/${row.product_image}`, config)
             dispatch(loading(false))
             Swal.fire({
               icon: 'success',
@@ -167,7 +175,7 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, row, findEmployees }) {
         }).then(async result => {
           if (result.isConfirmed) {
             dispatch(loading(true))
-            await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee/${row._id}`, data)
+            await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/employee/${row._id}`, data, config)
             dispatch(loading(false))
             Swal.fire({
               icon: 'success',

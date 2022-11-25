@@ -98,12 +98,22 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map(el => el[0])
 }
 
+
+
 export default function Component() {
+
   const dispatch = useDispatch()
   const router = useRouter()
 
   const { data: session } = useSession()
   if (!session) return <Main signIn={signIn} />
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': `Bearer ${localStorage.getItem('token')}`
+    }
+  }
+  
 
   const [isReportList, setReportList] = useState([])
   const [page, setPage] = useState(0)
@@ -132,7 +142,7 @@ export default function Component() {
     dispatch(loading(true))
     const isBranch = localStorage.getItem('branch')
 
-    const getReport = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full/branch/${isBranch}`)
+    const getReport = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full/branch/${isBranch}`,config)
     if (getReport || getReport.data.data) {
       const reverseReport = getReport.data.data.reverse()
       setReportList(reverseReport)

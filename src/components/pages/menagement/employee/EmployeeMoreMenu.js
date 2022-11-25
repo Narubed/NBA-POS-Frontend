@@ -31,7 +31,7 @@ import {
   TableCell,
   Grid
 } from '@mui/material'
-import axios from 'axios'
+
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/router'
 import EmployeeEdit from './EmployeeEdit'

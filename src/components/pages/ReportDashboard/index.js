@@ -14,6 +14,13 @@ import CardInvoiceFull from './component/CardComponent/CardInvoiceFull'
 
 import CardSalesHistory from './component/CardSalesHistory'
 
+const config = {
+  headers: {
+    'Content-Type': 'application/json',
+    'auth-token': 'Bearer ' + localStorage.getItem('token')
+  }
+}
+
 export default function index() {
   const [isBranch, setBranch] = useState()
   const { data: session } = useSession()
@@ -25,7 +32,9 @@ export default function index() {
 
   const funcGetBranch = async () => {
     const isBranchid = localStorage.getItem('branch')
-    await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranchid}`).then(res => setBranch(res.data.data))
+    await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranchid}`, config).then(res =>
+      setBranch(res.data.data)
+    )
   }
 
   return (

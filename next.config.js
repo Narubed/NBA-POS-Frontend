@@ -1,8 +1,12 @@
 const path = require('path')
 
 module.exports = {
+  
   trailingSlash: true,
   reactStrictMode: false,
+  images: {
+    domains: ["drive.google.com", "localhost"],
+  },
   experimental: {
     esmExternals: false,
     jsconfigPaths: true // enables it for both jsconfig.json and tsconfig.json

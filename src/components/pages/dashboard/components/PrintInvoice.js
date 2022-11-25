@@ -92,10 +92,10 @@ export default function PrintInvoice({ componentToPrint, isReport }) {
                 <div> ส่วนลดท้ายบิล</div>
                 <div> - {isReport && numeral(isReport.report_discount).format('0,0.00')}</div>
               </div>
-              <div style={{ justifyContent: 'space-between', display: 'flex', fontSize: '12px' }}>
+              {/* <div style={{ justifyContent: 'space-between', display: 'flex', fontSize: '12px' }}>
                 <div>ยอดรวมส่วนลด</div>
                 <div> {isReport && numeral(isReport.report_discount).format('0,0.00')}</div>
-              </div>
+              </div> */}
             </>
           )}
           {isReport.report_vat_name !== 'ไม่มี' && (
@@ -103,7 +103,7 @@ export default function PrintInvoice({ componentToPrint, isReport }) {
               <div
                 style={{
                   justifyContent: 'space-between',
-                  borderTop: '1px solid black',
+                
                   display: 'flex',
                   fontSize: '12px'
                 }}
@@ -119,7 +119,7 @@ export default function PrintInvoice({ componentToPrint, isReport }) {
                     ).format('0,0.00')}
                 </div>
               </div>
-              <div style={{ justifyContent: 'space-between', display: 'flex', fontSize: '12px' }}>
+              <div style={{ justifyContent: 'space-between', display: 'flex', fontSize: '12px',  borderTop: '1px solid black', }}>
                 <div>VATable</div>
                 <div>
                   {' '}

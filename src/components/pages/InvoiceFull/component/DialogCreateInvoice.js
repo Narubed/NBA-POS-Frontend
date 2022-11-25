@@ -47,6 +47,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 })
 
 export default function DialogCreateInvoice({ row, isOpenDialog, setOpenDialog, getAllReport }) {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': 'Bearer ' + localStorage.getItem('token')
+    }
+  }
   const theme = useTheme()
   const { data: session } = useSession()
   const [isOpenDialogConfirm, setOpenDialogConfirm] = React.useState(false)
@@ -61,7 +67,7 @@ export default function DialogCreateInvoice({ row, isOpenDialog, setOpenDialog, 
   const headleConfirm = async () => {
     const isBranch = localStorage.getItem('branch')
 
-    const getBranch = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranch}`)
+    const getBranch = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranch}`,config)
     if (getBranch || getBranch.data.data) {
       const newBranch = getBranch.data.data
 
@@ -72,7 +78,7 @@ export default function DialogCreateInvoice({ row, isOpenDialog, setOpenDialog, 
 
       const getInvoice = await axios.post(
         `${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full/invoice_full`,
-        dataInvoice
+        dataInvoice,config
       )
 
       const dataPostInvoice = {
@@ -100,8 +106,8 @@ export default function DialogCreateInvoice({ row, isOpenDialog, setOpenDialog, 
 
       await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/${row._id}`, {
         report_tax_invoice_number_full: getInvoice.data.invoice_full
-      })
-      await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full`, dataPostInvoice)
+      },config)
+      await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full`, dataPostInvoice,config)
       getAllReport()
       setOpenDialogConfirm(false)
     }

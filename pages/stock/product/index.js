@@ -92,12 +92,20 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map(el => el[0])
 }
 
+
 export default function Component() {
   const dispatch = useDispatch()
   const router = useRouter()
 
   const { data: session } = useSession()
   if (!session) return <Main signIn={signIn} />
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': `Bearer ${localStorage.getItem('token')}`
+    }
+  }
 
   const [isProductList, setProductList] = useState([])
   const [page, setPage] = useState(0)
@@ -127,7 +135,7 @@ export default function Component() {
     dispatch(loading(true))
     const isBranch = localStorage.getItem('branch')
 
-    const getProducts = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`)
+    const getProducts = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`, config)
     if (getProducts || getProducts.data.data) {
       const reverseProducts = getProducts.data.data.reverse()
       setProductList(reverseProducts)
@@ -183,9 +191,13 @@ export default function Component() {
   const switchStatusProduct = async props => {
     dispatch(loading(true))
     const { event, row } = props
-    await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${row._id}`, {
-      product_status: event.target.checked
-    })
+    await axios.put(
+      `${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${row._id}`,
+      {
+        product_status: event.target.checked
+      },
+      config
+    )
     fetcherData()
     dispatch(loading(false))
   }

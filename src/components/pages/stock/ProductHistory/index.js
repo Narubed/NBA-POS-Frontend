@@ -9,18 +9,26 @@ import Box from '@mui/material/Box'
 import TableProduct from './component/TableProduct'
 import TableProductDetail from './component/TableProductDetail'
 
+
 function DesignBlocks() {
   const { data: session } = useSession()
   const [isSelectedProduct, setSelectedProduct] = React.useState()
   const [isProductHistory, setProductHistory] = React.useState([])
   const [isProductHistoryAll, setProductHistoryAll] = React.useState([])
 
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': `Bearer ${localStorage.getItem('token')}`
+    }
+  }
   const findProducthistory = async row => {
     setSelectedProduct(row)
     const isBranch = localStorage.getItem('branch')
 
     const getProductHisrory = await axios.get(
-      `${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/product/${row._id}`
+      `${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/product/${row._id}`,
+      config
     )
     setProductHistory(getProductHisrory.data.data.reverse())
     setProductHistoryAll(getProductHisrory.data.data.reverse())
