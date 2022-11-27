@@ -57,9 +57,11 @@ function ListProduct({
     if (currency === 'บาท') {
       if (isNaN(parseFloat(value))) {
         setDiscount(0)
+        localStorage.setItem('discount', 0)
         forceRerender()
       } else {
         setDiscount(parseFloat(value))
+        localStorage.setItem('discount', parseFloat(value))
         forceRerender()
       }
     } else {
@@ -70,10 +72,12 @@ function ListProduct({
       const newDiscount = (newSummary * parseFloat(value)) / 100
       if (isNaN(newDiscount)) {
         setDiscount(0)
+        localStorage.setItem('discount', 0)
         forceRerender()
       } else {
         forceRerender()
         setDiscount(newDiscount)
+        localStorage.setItem('discount', newDiscount)
       }
     }
   }

@@ -47,14 +47,10 @@ CheckOrderMoreMenu.propTypes = {
 const Transition = React.forwardRef((props, ref) => <Slide direction='up' ref={ref} {...props} />)
 
 export default function CheckOrderMoreMenu({ row, id, fetcherData }) {
-  const router = useRouter()
-  const [showModal, setShowModal] = useState(false)
-
   const ref = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenDetail, setOpenDetail] = useState(false)
   const [showDrawerEdit, setDrawerEdit] = useState(false)
-  const [isProducts, setProducts] = useState([])
 
   const config = {
     headers: {
@@ -62,6 +58,7 @@ export default function CheckOrderMoreMenu({ row, id, fetcherData }) {
       'auth-token': `Bearer ${localStorage.getItem('token')}`
     }
   }
+
   const showDetail = () => {
     setIsOpen(false)
     setOpenDetail(true)
@@ -70,11 +67,38 @@ export default function CheckOrderMoreMenu({ row, id, fetcherData }) {
   const showEdit = async () => {
     setIsOpen(false)
     setDrawerEdit(true)
-
-    const getNewData = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${row._id}`, config)
-    setProducts(getNewData.data.data)
-
     localStorage.setItem('product_id', row._id)
+
+    // const getNewData = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${row._id}`, config)
+  }
+
+  const headleDelete = async props => {
+    console.log(props)
+    setIsOpen(false)
+    Swal.fire({
+      title: 'ยืนยันการทำรายการ ?',
+      text: 'คุณต้องการลบสินค้านี้ออกจากระบบหรือไม่ !',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'primary',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ตกลง',
+      cancelButtonText: 'ยกเลิก'
+    }).then(async result => {
+      if (result.isConfirmed) {
+        await axios.delete(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/${props._id}`, config)
+        await axios.delete(`${process.env.NEXT_PUBLIC_POS_BACKEND}/delete_image/${props.product_image}`, config)
+        Swal.fire({
+          icon: 'success',
+          title: 'ยืนยันการทำรายการ',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        setTimeout(async () => {
+          await fetcherData()
+        }, 1500)
+      }
+    })
   }
 
   return (
@@ -96,7 +120,7 @@ export default function CheckOrderMoreMenu({ row, id, fetcherData }) {
         >
           <MenuItem sx={{ color: 'text.secondary' }}>
             <ListItemIcon>
-              <Icon icon='icon-park-outline:view-grid-detail' width={24} height={24} />
+              <Icon icon='material-symbols:screen-search-desktop' width={24} height={24} />
             </ListItemIcon>
             <ListItemText
               primary='รายระเอียด'
@@ -106,9 +130,19 @@ export default function CheckOrderMoreMenu({ row, id, fetcherData }) {
           </MenuItem>
           <MenuItem sx={{ color: 'text.secondary' }}>
             <ListItemIcon>
-              <Icon icon='icon-park-outline:view-grid-detail' width={24} height={24} />
+              <Icon icon='material-symbols:edit-document' width={24} height={24} />
             </ListItemIcon>
             <ListItemText primary='แก้ไข' primaryTypographyProps={{ variant: 'body2' }} onClick={() => showEdit()} />
+          </MenuItem>
+          <MenuItem sx={{ color: 'text.secondary' }}>
+            <ListItemIcon>
+              <Icon icon='ri:delete-bin-5-fill' width={24} height={24} />
+            </ListItemIcon>
+            <ListItemText
+              primary='ลบสินค้า'
+              primaryTypographyProps={{ variant: 'body2' }}
+              onClick={() => headleDelete(row)}
+            />
           </MenuItem>
         </Menu>
         <ProductDetail item={row} isOpenDetail={isOpenDetail} setOpenDetail={setOpenDetail} />

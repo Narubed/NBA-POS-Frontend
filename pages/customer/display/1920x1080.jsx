@@ -17,86 +17,84 @@ import { Box, Grid } from '@mui/material'
 // ** Layout Import
 import Main from '../../../src/components/auth/pages/main'
 import BlankLayout from '../../../src/@core/layouts/BlankLayout'
+import Display from '../../../src/components/pages/customer/display'
 import { addItem, loading } from '../../../src/store/actions'
 import Image from 'next/image'
-
-// ** Demo Imports
-// import FooterIllustrations from '../src/views/pages/misc/FooterIllustrations' ../../../store/actions
-
-// ** Styled Components
-const BoxWrapper = styled(Box)(({ theme }) => ({
-  [theme.breakpoints.down('md')]: {
-    width: '90vw'
-  }
-}))
-
-const Img = styled('img')(({ theme }) => ({
-  marginBottom: theme.spacing(10),
-  [theme.breakpoints.down('lg')]: {
-    height: '100%',
-    marginTop: theme.spacing(10)
-  },
-  [theme.breakpoints.down('md')]: {
-    height: '100%'
-  },
-  [theme.breakpoints.down('xs')]: {
-    height: '100%'
-  },
-  [theme.breakpoints.up('lg')]: {
-    marginTop: theme.spacing(13)
-  }
-}))
+import axios from 'axios'
 
 const CustomerDisplay = () => {
   const { data: session } = useSession()
   const dispatch = useDispatch()
-  if (!session) return <Main signIn={signIn} />
+  const [isShopping, setShopping] = useState([])
+  const [isScanner, setScanner] = useState({})
+  const [isAdvert, setAdvert] = useState([])
+  const HeightCard = '72vh'
+  const HeightScroll = '71vh'
 
   useEffect(() => {
     if (session) {
       function checkUserData() {
         const item = localStorage.getItem('shopping')
+        const scanner = localStorage.getItem('scaner')
         if (item) {
-          console.log(JSON.parse(item))
+          setShopping(JSON.parse(item))
 
           // setOrder(JSON.parse(item))
           // dispatch(addItem(JSON.parse(item)))
         }
+        if (scanner) {
+          setScanner(JSON.parse(scanner))
+        }
       }
       window.addEventListener('storage', checkUserData)
-      
-return () => {
+
+      return () => {
         window.removeEventListener('storage', checkUserData)
       }
     }
   }, [session])
+
+  useEffect(() => {
+    fetchImage()
+  }, [])
+
+  const fetchImage = async () => {
+    await axios
+      .get(`${process.env.NEXT_PUBLIC_POS_ADMIN_BACKEND}/advert`)
+      .then(json => setAdvert(json.data.data.advert_images))
+  }
+
+  if (!session) return <Main signIn={signIn} />
 
   return (
     <Grid
       container
       spacing={2}
       sx={{
-        background: '#000000',
+        background: '#FFFFFF',
         backgroundSize: 'cover',
         height: '100vh',
         padding: 0,
         backgroundPosition: 'top'
       }}
     >
-      <Grid item xs={12} md={6}>
-        123
+      <Grid item xs={12} md={7.2}>
+        <Display isShopping={isShopping} isScanner={isScanner} HeightCard={HeightCard} HeightScroll={HeightScroll} />
       </Grid>
-      <Grid item xs={12} md={6} p={0}>
+      <Grid item xs={12} md={4.8} mt={0.5} pr={0.5}>
         <Carousel autoPlay infiniteLoop showStatus showThumbs={false}>
-          <div>
-            <img src='https://drive.google.com/uc?export=view&id=1LhyBE6Sdt8SqDKfGmro3cs9zBTdofwvh' />
-          </div>
-          <div>
-            <img src='https://drive.google.com/uc?export=view&id=1LhyBE6Sdt8SqDKfGmro3cs9zBTdofwvh' />
-          </div>
-          <div>
-            <img src='https://drive.google.com/uc?export=view&id=1LhyBE6Sdt8SqDKfGmro3cs9zBTdofwvh' />
-          </div>
+          {isAdvert.map(item => (
+            <div
+              key={item}
+              style={{
+                backgroundImage: `url('${process.env.NEXT_PUBLIC_POS_ADMIN_BACKEND}/static/advert/${item}')`,
+                backgroundSize: 'cover',
+                height: '99vh',
+                padding: 1,
+                backgroundPosition: 'top'
+              }}
+            ></div>
+          ))}
         </Carousel>
       </Grid>
     </Grid>

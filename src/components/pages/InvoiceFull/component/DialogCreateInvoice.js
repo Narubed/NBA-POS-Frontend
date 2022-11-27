@@ -47,6 +47,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 })
 
 export default function DialogCreateInvoice({ row, isOpenDialog, setOpenDialog, getAllReport }) {
+  console.log(row)
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -67,7 +69,7 @@ export default function DialogCreateInvoice({ row, isOpenDialog, setOpenDialog, 
   const headleConfirm = async () => {
     const isBranch = localStorage.getItem('branch')
 
-    const getBranch = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranch}`,config)
+    const getBranch = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranch}`, config)
     if (getBranch || getBranch.data.data) {
       const newBranch = getBranch.data.data
 
@@ -78,7 +80,8 @@ export default function DialogCreateInvoice({ row, isOpenDialog, setOpenDialog, 
 
       const getInvoice = await axios.post(
         `${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full/invoice_full`,
-        dataInvoice,config
+        dataInvoice,
+        config
       )
 
       const dataPostInvoice = {
@@ -100,14 +103,20 @@ export default function DialogCreateInvoice({ row, isOpenDialog, setOpenDialog, 
         rif_tax_invoice_number_shot: row.report_tax_invoice_number_shot,
         rif_tax_invoice_number_full: getInvoice.data.invoice_full,
         rif_money: row.report_money,
+        rif_payment_number: row.report_payment_number,
         rif_payment_type: row.report_payment_type,
         rif_timestamp: dayjs(Date.now()).format()
       }
+      console.log(dataPostInvoice)
 
-      await axios.put(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/${row._id}`, {
-        report_tax_invoice_number_full: getInvoice.data.invoice_full
-      },config)
-      await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full`, dataPostInvoice,config)
+      await axios.put(
+        `${process.env.NEXT_PUBLIC_POS_BACKEND}/report/${row._id}`,
+        {
+          report_tax_invoice_number_full: getInvoice.data.invoice_full
+        },
+        config
+      )
+      await axios.post(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full`, dataPostInvoice, config)
       getAllReport()
       setOpenDialogConfirm(false)
     }

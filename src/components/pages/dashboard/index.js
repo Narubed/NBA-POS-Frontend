@@ -133,12 +133,36 @@ function dashboard() {
       console.log(parseJsonLocal)
       setOrder(parseJsonLocal)
     }
+
+    const getdiscountLocalstroage = localStorage.getItem('discount')
+    console.log(getdiscountLocalstroage)
+    const parseJsondiscount = JSON.parse(getdiscountLocalstroage)
+    if (parseJsondiscount && parseJsondiscount !== 0) {
+      console.log(parseJsondiscount)
+
+      setDiscount(parseJsondiscount)
+    }
   }, [])
 
+  // useEffect(() => {
+  //   function checkUserData() {
+  //     const item = localStorage.getItem('shopping')
+  //     if (item) {
+  //       console.log(JSON.parse(item))
 
+  //       // setOrder(JSON.parse(item))
+  //       dispatch(addItem(JSON.parse(item)))
+  //     }
+  //   }
+  //   window.addEventListener('storage', checkUserData)
+  //   return () => {
+  //     window.removeEventListener('storage', checkUserData)
+  //   }
+  // }, [])
 
   const allProduct = async () => {
     const isBranch = localStorage.getItem('branch')
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -155,9 +179,10 @@ function dashboard() {
 
   const checkOrder = order => {
     const newOrder = order.item
+    localStorage.setItem('scaner', JSON.stringify(newOrder))
     console.log(newOrder)
     const listProduct = valueListProduct !== undefined && valueListProduct.length !== 0 ? valueListProduct : []
-    console.log(listProduct)
+
     const idx = listProduct?.findIndex(item => item._id === newOrder._id)
     if (idx === -1) {
       listProduct.push({ ...newOrder, amount: 1 })
@@ -166,9 +191,12 @@ function dashboard() {
       listProduct[idx].amount += 1
       forceRerender()
     }
-    console.log(listProduct)
     setOrders(listProduct)
     dispatch(addItem(listProduct))
+
+    // setTimeout(() => {
+    //   localStorage.removeItem('scaner')
+    // }, 5000)
   }
 
   const changeAmountOrder = value => {
@@ -202,6 +230,7 @@ function dashboard() {
   const confirmOrder = async props => {
     dispatch(loading(true))
     const isBranch = localStorage.getItem('branch')
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -209,14 +238,15 @@ function dashboard() {
       }
     }
     const isNewBranch = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/branch/${isBranch}`, config)
+
     const isReport = await axios.post(
       `${process.env.NEXT_PUBLIC_POS_BACKEND}/report/invoice_shot`,
+
       {
-        body: {
-          date: dayjs(Date.now()).format(),
-          branch: isBranch
-        }
+        date: dayjs(Date.now()).format(),
+        branch: isBranch
       },
+
       config
     )
     if (isNewBranch || isNewBranch.data) {
@@ -247,6 +277,7 @@ function dashboard() {
       }
 
       const responseReport = []
+
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -290,6 +321,8 @@ function dashboard() {
       allProduct()
       dispatch(loading(false))
       setSelectPrint(true)
+
+      localStorage.removeItem('discount')
     }
   }
 

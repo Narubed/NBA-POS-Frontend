@@ -55,6 +55,7 @@ export default function index({
       event.preventDefault()
       setErorSelect(true)
     } else {
+      localStorage.setItem('scaner', JSON.stringify(findProduct))
       event.preventDefault()
 
       let newReducerProduct =
@@ -85,9 +86,11 @@ export default function index({
     if (currency === 'บาท') {
       if (isNaN(parseFloat(value))) {
         setDiscount(0)
+        localStorage.setItem('discount', 0)
         forceRerender()
       } else {
         setDiscount(parseFloat(value))
+        localStorage.setItem('discount', parseFloat(value))
         forceRerender()
       }
     } else {
@@ -98,10 +101,12 @@ export default function index({
       const newDiscount = (newSummary * parseFloat(value)) / 100
       if (isNaN(newDiscount)) {
         setDiscount(0)
+        localStorage.setItem('discount', 0)
         forceRerender()
       } else {
         forceRerender()
         setDiscount(newDiscount)
+        localStorage.setItem('discount', newDiscount)
       }
     }
   }

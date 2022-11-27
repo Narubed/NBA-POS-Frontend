@@ -227,7 +227,7 @@ export default function Component() {
           เพิ่มสินค้าใหม่
         </Button>
       </Stack>
-      <ProductCreate showDrawerCreate={showDrawerCreate} setDrawerCreate={setDrawerCreate} />
+      <ProductCreate showDrawerCreate={showDrawerCreate} setDrawerCreate={setDrawerCreate} fetcherData={fetcherData}/>
       <Card>
         <ProductListToolbar
           numSelected={selected.length}

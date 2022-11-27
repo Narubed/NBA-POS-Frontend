@@ -14,20 +14,19 @@ import CardInvoiceFull from './component/CardComponent/CardInvoiceFull'
 
 import CardSalesHistory from './component/CardSalesHistory'
 
-const config = {
-  headers: {
-    'Content-Type': 'application/json',
-    'auth-token': 'Bearer ' + localStorage.getItem('token')
-  }
-}
-
 export default function index() {
   const [isBranch, setBranch] = useState()
   const { data: session } = useSession()
 
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': 'Bearer ' + localStorage.getItem('token')
+    }
+  }
+
   useEffect(() => {
     funcGetBranch()
-    console.log(isBranch)
   }, [])
 
   const funcGetBranch = async () => {

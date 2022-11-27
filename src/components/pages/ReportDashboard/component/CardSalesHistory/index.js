@@ -40,12 +40,7 @@ const TypographyHeaderText = styled(Typography)(({ theme }) => ({
 }))
 
 
-const config = {
-  headers: {
-    'Content-Type': 'application/json',
-    'auth-token': 'Bearer ' + localStorage.getItem('token')
-  }
-}
+
 
 export default function index() {
   const { data: session } = useSession()
@@ -55,6 +50,13 @@ export default function index() {
   const [isSummary, setSummary] = useState(0)
   const [isTopProducts, setTopProducts] = useState([])
 
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': 'Bearer ' + localStorage.getItem('token')
+    }
+  }
+  
   useEffect(() => {
     funcGetReport()
     fetchProductHistory()

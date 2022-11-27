@@ -61,7 +61,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
             >
               ใบเสร็จรับเงิน
             </h1>
-            <div id='company' className='clearfix' style={{ float: 'right', textAlign: 'right', fontSize: '14px', color: '#5D6975' }}>
+            <div id='company' className='clearfix' style={{ float: 'right', textAlign: 'right', fontSize: '14px', color: '#5D6975', paddingRight: 8 }}>
               เลขที่ <a style={{ fontSize: '12px', color: '#5D6975' }}>{isReport.report_tax_invoice_number_shot} </a>
               <br />
               วันที่ {isReport && dayjs(isReport.report_timestamp).add(543, 'year').locale('th').format('DD MMM YYYY')}
@@ -88,7 +88,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                 <a href='mailto:company@example.com'>company@example.com</a>
               </div> */}
             </div>
-            <div id='project' style={{ float: 'left', fontSize: '14px', color: '#5D6975' }}>
+            <div id='project' style={{ float: 'left', fontSize: '14px', color: '#5D6975', paddingLeft: 8 }}>
               <div>
                 <span>นามลูกค้า :</span>{' '}
               </div>
@@ -276,7 +276,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
                 </tr>
               </tbody>
             </table>
-            <div id='notices' style={{ color: '#5D6975', fontSize: '1em' }}>
+            <div id='notices' style={{ color: '#5D6975', fontSize: '1em', paddingLeft: 8 }}>
               <div className='notice'>หมายเหตุ: N = สินค้าที่ได้รับการยกเว้นภาศีมูลค่าเพิ่ม.</div>
             </div>
             <footer

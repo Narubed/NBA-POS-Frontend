@@ -59,7 +59,7 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
   }
 }))
 
-function ProductCreate({ showDrawerCreate, setDrawerCreate }) {
+function ProductCreate({ showDrawerCreate, setDrawerCreate, fetcherData }) {
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -85,6 +85,7 @@ function ProductCreate({ showDrawerCreate, setDrawerCreate }) {
       'auth-token': `Bearer ${localStorage.getItem('token')}`
     }
   }
+
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
   }
@@ -157,7 +158,7 @@ function ProductCreate({ showDrawerCreate, setDrawerCreate }) {
                   timer: 1500
                 })
                 setTimeout(() => {
-                  router.replace('/')
+                  fetcherData()
                 }, 1500)
               }
             })
@@ -363,8 +364,8 @@ function ProductCreate({ showDrawerCreate, setDrawerCreate }) {
                     onChange={e => setValues({ ...values, product_pay_tax: e.target.checked })}
                     label={
                       values.product_pay_tax
-                        ? 'สินค้าที่ได้รับการยกเว้นภาษีมูลค้าเพิ่ม'
-                        : 'สินค้าที่คิดภาษีมูลค้าเพิ่มแล้ว'
+                        ? 'สินค้าที่ได้รับการยกเว้นภาษีมูลค้าเพิ่ม (ไม่คิดภาษี)'
+                        : 'สินค้าที่คิดภาษีมูลค้าเพิ่มแล้ว (คิดภาษี)'
                     }
                   />
                 </FormGroup>

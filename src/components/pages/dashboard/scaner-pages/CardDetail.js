@@ -9,14 +9,11 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import BottomNavigation from '@mui/material/BottomNavigation'
-import BottomNavigationAction from '@mui/material/BottomNavigationAction'
-import RestoreIcon from '@mui/icons-material/Restore'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
 import IconButton from '@mui/material/IconButton'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import DialogNoteProductScaner from '../lib/DialogNoteProductScaner'
 import DialogButtonAmount from '../lib/DialogButtonAmount'
@@ -67,7 +64,7 @@ export default function DenseTable({ deleteProduct, changeAmountOrder }) {
               <TableCell align='right'>ชื่อสินค้า</TableCell>
               <TableCell align='right'>คงเหลือ</TableCell>
               <TableCell align='right'>ราคา/หน่วย</TableCell>
-              <TableCell align='right'>จำนวน</TableCell>
+              <TableCell align='center'>จำนวน</TableCell>
               <TableCell align='right'>ส่วนลด</TableCell>
               <TableCell align='right'>ราคารวม</TableCell>
               <TableCell align='center'>จัดการ</TableCell>
@@ -94,9 +91,10 @@ export default function DenseTable({ deleteProduct, changeAmountOrder }) {
 
                     <TableCell align='right'>{numeral(row.product_price).format('0,0.00')}</TableCell>
 
-                    <TableCell align='right'>
+                    <TableCell align='center'>
                       {' '}
-                      <IconButton
+                      <Button
+                        variant='outlined'
                         color='primary'
                         aria-label='upload picture'
                         component='span'
@@ -104,7 +102,7 @@ export default function DenseTable({ deleteProduct, changeAmountOrder }) {
                         onClick={event => addAmountProduct(event, row)}
                       >
                         {numeral(row.amount).format('0,0')}
-                      </IconButton>
+                      </Button>
                     </TableCell>
                     <TableCell align='right'>{numeral(row.product_discount).format('0,0.00')}</TableCell>
                     <TableCell align='right'>

@@ -104,7 +104,9 @@ export default function DialogCreateInvoice({ row, isOpenDialog, setOpenDialog, 
         rif_tax_invoice_number_shot: row.report_tax_invoice_number_shot,
         rif_tax_invoice_number_full: getInvoice.data.invoice_full,
         rif_money: row.report_money,
+        rif_payment_number: row.report_payment_number,
         rif_payment_type: row.report_payment_type,
+
         rif_timestamp: dayjs(Date.now()).format()
       }
 

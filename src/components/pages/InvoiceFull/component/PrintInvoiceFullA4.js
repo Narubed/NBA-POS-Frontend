@@ -18,6 +18,10 @@ import dimension from '../../../../../public/images/Report/dimension.png'
 const TAX_RATE = 0.07
 
 export default function SpanningTable({ componentToPrintFullA4, isReport }) {
+  const address = isReport.rif_customer_address.match(/.{1,70}/g).join('<br/>')
+  console.log(isReport.rif_customer_address.length)
+  console.log(address)
+
   return (
     <Grid display='none'>
       <div ref={el => (componentToPrintFullA4.current = el)}>
@@ -63,59 +67,60 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
             >
               ใบเสร็จรับเงิน/ใบกำกับภาษี
             </h1>
-            <div
-              id='company'
-              className='clearfix'
-              style={{ float: 'right', textAlign: 'right', fontSize: '14px', color: '#5D6975' }}
-            >
-              เลขที่ : <a style={{ color: '#5D6975' }}>{isReport.rif_tax_invoice_number_full} </a>
-              <br />
-              เลขที่ใบกำกับภาษีอย่างย่อ : <a style={{ color: '#5D6975' }}>{isReport.rif_tax_invoice_number_shot} </a>
-              <br />
-              วันที่ :{' '}
-              {isReport && dayjs(isReport.report_timestamp).add(543, 'year').locale('th').format('DD MMM YYYY')}
-              <br />
-              {isReport && (
-                <a style={{ color: '#5D6975' }}>
-                  {isReport.rif_vat_name !== 'ไม่มี' ? isReport.rif_vat_name : isReport.rif_branch_name}
-                </a>
-              )}{' '}
-              <br />
-              {isReport && <a style={{ color: '#5D6975' }}>{isReport.rif_address}</a>} <br />
-              {isReport && <a style={{ color: '#5D6975' }}>เบอร์โทรศัพท์: {isReport.rif_vat_phone}</a>} <br />
-              {isReport &&
-                isReport.rif_vat_number !== 'ไม่มี' &&
-                `เลขประจำตัวผู้เสียภาษี : ${isReport.rif_vat_number}`}{' '}
-              <br />
-              {isReport && isReport.rif_vat_name !== 'ไม่มี' && `สาขาที่ออกใบกำกับภาษี : ${isReport.rif_branch_name}`}
-              {/* <div>Company Name</div>
-              <div>
-                455 Foggy Heights,
-                <br /> AZ 85004, US
-              </div>
-              <div>(602) 519-0450</div>
-              <div>
-                <a href='mailto:company@example.com'>company@example.com</a>
-              </div> */}
-            </div>
-            <div id='project' style={{ float: 'left', fontSize: '14px', color: '#5D6975' }}>
-              {isReport && (
-                <>
-                  <div>
-                    <span>นามลูกค้า: {isReport.rif_customer_name}</span>{' '}
-                  </div>
-                  <div>
-                    <span>เลขประจำตัวผู้เสียภาษี : {isReport.rif_customer_number}</span>{' '}
-                  </div>
-                  <div>
-                    <span>ที่อยู่ : {isReport.rif_customer_address}</span>{' '}
-                  </div>
-                  <div>
-                    <span>เบอร์โทรศัพท์ : {isReport.rif_customer_phone}</span>{' '}
-                  </div>
-                </>
-              )}
-            </div>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <div id='project' style={{ float: 'left', fontSize: '14px', color: '#5D6975', paddingLeft: 8 }}>
+                  {isReport && (
+                    <>
+                      <div>
+                        <span>นามลูกค้า: {isReport.rif_customer_name}</span>{' '}
+                      </div>
+                      <div>
+                        <span>เลขประจำตัวผู้เสียภาษี : {isReport.rif_customer_number}</span>{' '}
+                      </div>
+                      <div>
+                        <span>ที่อยู่ : {isReport.rif_customer_address}</span>{' '}
+                      </div>
+                      <div>
+                        <span>เบอร์โทรศัพท์ : {isReport.rif_customer_phone}</span>{' '}
+                      </div>
+                    </>
+                  )}
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div
+                  id='company'
+                  className='clearfix'
+                  style={{ float: 'right', textAlign: 'right', fontSize: '14px', color: '#5D6975', paddingRight: 8 }}
+                >
+                  เลขที่ : <a style={{ color: '#5D6975' }}>{isReport.rif_tax_invoice_number_full} </a>
+                  <br />
+                  เลขที่ใบกำกับภาษีอย่างย่อ :{' '}
+                  <a style={{ color: '#5D6975' }}>{isReport.rif_tax_invoice_number_shot} </a>
+                  <br />
+                  วันที่ :{' '}
+                  {isReport && dayjs(isReport.rif_timestamp).add(543, 'year').locale('th').format('DD MMM YYYY')}
+                  <br />
+                  {isReport && (
+                    <a style={{ color: '#5D6975' }}>
+                      {isReport.rif_vat_name !== 'ไม่มี' ? isReport.rif_vat_name : isReport.rif_branch_name}
+                    </a>
+                  )}{' '}
+                  <br />
+                  {isReport && <a style={{ color: '#5D6975' }}>{isReport.rif_address}</a>} <br />
+                  {isReport && <a style={{ color: '#5D6975' }}>เบอร์โทรศัพท์: {isReport.rif_vat_phone}</a>} <br />
+                  {isReport &&
+                    isReport.rif_vat_number !== 'ไม่มี' &&
+                    `เลขประจำตัวผู้เสียภาษี : ${isReport.rif_vat_number}`}{' '}
+                  <br />
+                  {isReport &&
+                    isReport.rif_vat_name !== 'ไม่มี' &&
+                    `สาขาที่ออกใบกำกับภาษี : ${isReport.rif_branch_name}`}
+                </div>
+              </Grid>
+            </Grid>
+
             <table
               style={{
                 width: '100%',
@@ -287,7 +292,7 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
                 </tr>
               </tbody>
             </table>
-            <div id='notices' style={{ color: '#5D6975', fontSize: '1em' }}>
+            <div id='notices' style={{ color: '#5D6975', fontSize: '1em', paddingLeft: 8 }}>
               <div className='notice'>หมายเหตุ: N = สินค้าที่ได้รับการยกเว้นภาศีมูลค่าเพิ่ม.</div>
             </div>
             <footer
@@ -305,26 +310,50 @@ export default function SpanningTable({ componentToPrintFullA4, isReport }) {
               }}
             >
               <Grid display='flex' container sx={{ borderBottom: '2px solid #C1CED9', paddingBottom: '8px' }}>
-                <Grid xs={8} sm={8} md={8} lg={8} sx={{ borderRight: '2px solid #C1CED9', color: '#5D6975' }}>
+                <Grid xs={8} sm={8} md={8} lg={8} sx={{ borderRight: '2px solid #C1CED9', color: '#5D6975', pl: 4 }}>
                   <a style={{ color: '#5D6975' }}>
-                    ชำระด้วย/PAYMENT BY: <Checkbox sx={{ width: '15px', height: '15px' }} /> เงินโอน/TRANSFER{' '}
-                    <Checkbox sx={{ width: '15px', height: '15px' }} /> เงินสด/CASH
+                    ชำระด้วย/PAYMENT BY:{' '}
+                    <Checkbox
+                      sx={{ width: '15px', height: '15px' }}
+                      checked={isReport.rif_payment_type === 'โอนจ่าย' ? true : false}
+                    />{' '}
+                    เงินโอน/TRANSFER{' '}
+                    <Checkbox
+                      sx={{ width: '15px', height: '15px' }}
+                      checked={isReport.rif_payment_type === 'เงินสด' ? true : false}
+                    />{' '}
+                    เงินสด/CASH
                   </a>
                   <br />
                   <a style={{ color: '#5D6975' }}>
-                    ชำระด้วย/PAYMENT BY: <Checkbox sx={{ width: '15px', height: '15px' }} /> เช็ค/CHEQUE{' '}
-                    <Checkbox sx={{ width: '15px', height: '15px' }} /> บัตรเครดิต/CREDIT CARD
+                    ชำระด้วย/PAYMENT BY:{' '}
+                    <Checkbox
+                      sx={{ width: '15px', height: '15px' }}
+                      checked={isReport.rif_payment_type === 'บัตรเครดิต' ? true : false}
+                    />{' '}
+                    บัตรเครดิต/CREDIT CARD{' '}
+                    <Checkbox
+                      sx={{ width: '15px', height: '15px' }}
+                      checked={isReport.rif_payment_type === 'อื่น ๆ' ? true : false}
+                    />{' '}
+                    อื่น ๆ/OTHER{' '}
                   </a>
                   <br />
-                  ธนาคาร/สาขา _________________________________________________________________
+                  <a>ธนาคาร/สาขา ________________________________________________________________</a>
                   <br />
-                  เลขที่ __________________________________ วันที่ _________________________________
+                  เลขที่ ________
+                  {isReport.rif_payment_type === 'บัตรเครดิต' ? (
+                    <a style={{ borderBottom: '1px solid black' }}>{isReport.rif_payment_number}</a>
+                  ) : (
+                    '___________________'
+                  )}
+                  _______ วันที่ ________________________________
                   <br />
                   <div style={{ textAlign: 'center' }}>
                     {' '}
                     ( กรณีจ่ายเป็นเช็คใบเสร็จรับเงินจะสมบูรณ์ต่อเมื่อเก็บเงินตามเช็คได้แล้ว)
                   </div>
-                  ลงชื่อ ______________________________ ผู้รับเงิน/เช็ค วันที่ ___________________________
+                  ลงชื่อ ______________________________ ผู้รับเงิน/เช็ค วันที่ __________________________
                 </Grid>
                 <Grid xs={4} sm={4} md={4} lg={4} sx={{ textAlign: 'center', color: '#5D6975' }}>
                   <a style={{ color: '#5D6975' }}>

@@ -432,8 +432,8 @@ function ProductEdit({ showDrawerEdit, setDrawerEdit, isProducts, fetcherData })
                     onChange={e => setValues({ ...values, product_pay_tax: e.target.checked })}
                     label={
                       values.product_pay_tax
-                        ? 'สินค้าที่ได้รับการยกเว้นภาษีมูลค้าเพิ่ม'
-                        : 'สินค้าที่คิดภาษีมูลค้าเพิ่มแล้ว'
+                        ? 'สินค้าที่ได้รับการยกเว้นภาษีมูลค้าเพิ่ม (ไม่คิดภาษี)'
+                        : 'สินค้าที่คิดภาษีมูลค้าเพิ่มแล้ว (คิดภาษี)'
                     }
                   />
                 </FormGroup>

@@ -29,6 +29,7 @@ import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
 
 // component
 import ChangeBranch from './ChangeBranch'
+import DialogDisplay from './DialogDisplay'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -45,6 +46,7 @@ const UserDropdown = () => {
   // ** States
   const [anchorEl, setAnchorEl] = useState(null)
   const [isBranch, setBranch] = useState()
+  const [isOpenDisplay, setOpenDisplay] = useState(false)
 
   // ** Hooks
   const router = useRouter()
@@ -153,45 +155,25 @@ const UserDropdown = () => {
         </MenuItem>
         <ChangeBranch funcGetBranch={funcGetBranch} />
 
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDisplay('/customer/display/')}>
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => {
+            setAnchorEl(null)
+            setOpenDisplay(true)
+          }}
+        >
           <Box sx={styles}>
             <HelpCircleOutline sx={{ marginRight: 2 }} />
             หน้าจอฝั่งลูกค้า
           </Box>
         </MenuItem>
-
-        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <AccountOutline sx={{ marginRight: 2 }} />
-            Profile
-          </Box>
-        </MenuItem>
-
-        <Divider />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <CogOutline sx={{ marginRight: 2 }} />
-            Settings
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <CurrencyUsd sx={{ marginRight: 2 }} />
-            Pricing
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <HelpCircleOutline sx={{ marginRight: 2 }} />
-            FAQ
-          </Box>
-        </MenuItem> */}
         <Divider />
         <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/signin/')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           ออกจากระบบ
         </MenuItem>
       </Menu>
+      <DialogDisplay isOpenDisplay={isOpenDisplay} setOpenDisplay={setOpenDisplay} />
     </Fragment>
   )
 }
