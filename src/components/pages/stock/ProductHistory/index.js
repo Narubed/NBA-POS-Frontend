@@ -22,6 +22,7 @@ function DesignBlocks() {
       'auth-token': `Bearer ${localStorage.getItem('token')}`
     }
   }
+  
   const findProducthistory = async row => {
     setSelectedProduct(row)
     const isBranch = localStorage.getItem('branch')

@@ -107,6 +107,7 @@ export default function Component() {
 
   const { data: session } = useSession()
   if (!session) return <Main signIn={signIn} />
+  
   const config = {
     headers: {
       'Content-Type': 'application/json',

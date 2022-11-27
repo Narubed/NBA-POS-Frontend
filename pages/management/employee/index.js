@@ -94,12 +94,14 @@ export default function Component() {
   if (!session) {
     return <Main signIn={signIn} />
   }
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
       'auth-token': 'Bearer ' + localStorage.getItem('token')
     }
   }
+  
   useEffect(() => {
     if (session) {
       if (
