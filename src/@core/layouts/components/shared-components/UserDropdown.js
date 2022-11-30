@@ -65,9 +65,7 @@ const UserDropdown = () => {
     setAnchorEl(null)
   }
 
-  const handleDisplay = url => {
-    window.open(url, '_blank', 'noopener,noreferrer')
-  }
+
 
   const styles = {
     py: 2,

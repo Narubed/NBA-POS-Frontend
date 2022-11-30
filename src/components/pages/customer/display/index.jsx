@@ -71,8 +71,8 @@ function index(props) {
           <Box sx={{ p: 4, borderRadius: '10px', height: '100%' }}>
             {' '}
             <img
-              src='http://192.168.1.59:3010/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpos.ec8fa60a.png&w=64&q=75'
-              alt='http://192.168.1.59:3010/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpos.ec8fa60a.png&w=64&q=75'
+              src='https://nba-pos.nbadigitalservice.com/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpos.ec8fa60a.png&w=64&q=75'
+              alt='https://nba-pos.nbadigitalservice.com/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpos.ec8fa60a.png&w=64&q=75'
               width='120px'
             />
           </Box>
