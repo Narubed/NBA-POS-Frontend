@@ -28,7 +28,6 @@ import {
 } from '@mui/material'
 import axios from 'axios'
 
-
 // images
 
 // loading
@@ -88,7 +87,7 @@ export default function Component() {
   const { data: session } = useSession()
   const dispatch = useDispatch()
   const router = useRouter()
-  
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -110,12 +109,14 @@ export default function Component() {
     const isBranch = localStorage.getItem('branch')
 
     const getProductsHistory = await axios.get(
-      `${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/branch/${isBranch}`,config
+      `${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/branch/${isBranch}`,
+      config
     )
-    const getReport = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/branch/${isBranch}`,config)
+    const getReport = await axios.get(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/branch/${isBranch}`, config)
 
     const getInvoiceFull = await axios.get(
-      `${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full/branch/${isBranch}`,config
+      `${process.env.NEXT_PUBLIC_POS_BACKEND}/report_invoice_full/branch/${isBranch}`,
+      config
     )
     console.log(getInvoiceFull)
 
@@ -202,7 +203,6 @@ export default function Component() {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - newProductHistoryList.length) : 0
   const filteredList = applySortFilter(newProductHistoryList, getComparator(order, orderBy), filterName)
-
   const isUserNotFound = filteredList.length === 0
 
   const statusObj = {
