@@ -56,7 +56,7 @@ export default function index() {
       'auth-token': 'Bearer ' + localStorage.getItem('token')
     }
   }
-  
+
   useEffect(() => {
     funcGetReport()
     fetchProductHistory()
@@ -65,7 +65,7 @@ export default function index() {
   async function funcGetReport() {
     let getReport = []
     const isBranch = localStorage.getItem('branch')
-    await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/branch/${isBranch}`,config).then(
+    await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/report/branch/${isBranch}`, config).then(
       res => (getReport = res.data.data)
     )
     if (getReport.length !== 0) {
@@ -76,7 +76,7 @@ export default function index() {
       )
       let summary = 0
       filterDateNow.forEach(element => {
-        summary =
+        summary +=
           element.report_detail.reduce(
             (sum, item) => sum + ((item.product_price - item.product_cost) * item.amount - item.product_discount),
             0
@@ -107,8 +107,8 @@ export default function index() {
 
   const fetchProductHistory = async () => {
     const isBranch = localStorage.getItem('branch')
-    const fetchHistory = await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/branch/${isBranch}`,config)
-    const fetchProducts = await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`,config)
+    const fetchHistory = await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/history/branch/${isBranch}`, config)
+    const fetchProducts = await axios(`${process.env.NEXT_PUBLIC_POS_BACKEND}/products/branch/${isBranch}`, config)
 
     const { data } = fetchHistory.data
 
