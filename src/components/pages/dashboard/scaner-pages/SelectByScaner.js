@@ -12,7 +12,7 @@ export default function SelectByScaner({ handleSubmitScaner, isProducts, isSelec
           type='text'
           id='first'
           name='first'
-          label='สำหรับแสกนบาร์โค้ต'
+          label='สำหรับสแกนบาร์โค้ต'
           value={isSelectProduct}
           onChange={event => setSelectProduct(event.target.value)}
           autoComplete='off'

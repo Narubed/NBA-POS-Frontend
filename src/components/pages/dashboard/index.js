@@ -421,7 +421,7 @@ function dashboard() {
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <CreditCardScan />
-                  <TabName>หน้าร้านแบบแสกนสินค้า</TabName>
+                  <TabName>หน้าร้านแบบสแกนสินค้า</TabName>
                 </Box>
               }
             />
