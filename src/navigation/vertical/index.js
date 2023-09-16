@@ -7,6 +7,7 @@ import DatabaseArrowDown from 'mdi-material-ui/DatabaseArrowDown'
 import History from 'mdi-material-ui/History'
 import CardAccountDetails from 'mdi-material-ui/CardAccountDetails'
 import ShieldAlert from 'mdi-material-ui/ShieldAlert'
+import ClipboardList from 'mdi-material-ui/ClipboardList'
 
 const navigation = () => {
   return [
@@ -32,6 +33,11 @@ const navigation = () => {
       title: 'ใบกำกับภาษี(เต็ม)',
       icon: ClipboardTextClock,
       path: '/report/invoice/full'
+    },
+    {
+      title : 'รายงานการขาย',
+      icon: ClipboardList,
+      path: '/report/sales'
     },
 
     {

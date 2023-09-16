@@ -277,7 +277,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
               </tbody>
             </table>
             <div id='notices' style={{ color: '#5D6975', fontSize: '1em', paddingLeft: 8 }}>
-              <div className='notice'>หมายเหตุ: N = สินค้าที่ได้รับการยกเว้นภาศีมูลค่าเพิ่ม.</div>
+              <div className='notice'>หมายเหตุ: N = สินค้าที่ได้รับการยกเว้นภาษีมูลค่าเพิ่ม.</div>
             </div>
             <footer
               style={{

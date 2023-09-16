@@ -5,7 +5,7 @@ module.exports = {
   trailingSlash: true,
   reactStrictMode: false,
   images: {
-    domains: ["drive.google.com", "localhost"],
+    domains: ["drive.google.com", "localhost","nbadigitalservice"],
   },
   experimental: {
     esmExternals: false,

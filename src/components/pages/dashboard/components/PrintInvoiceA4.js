@@ -216,7 +216,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
 
               <TableRow>
                 <TableCell colSpan={1} sx={{ p: 0 }}>
-                  <Grid sx={{ p: 0, fontSize: '12px' }}>หมายเหตุ: 1. N = สินค้าที่ได้รับการยกเว้นภาศีมูลค่าเพิ่ม</Grid>
+                  <Grid sx={{ p: 0, fontSize: '12px' }}>หมายเหตุ: 1. N = สินค้าที่ได้รับการยกเว้นภาษีมูลค่าเพิ่ม</Grid>
                 </TableCell>
                 {/* <TableCell rowSpan={5} /> */}
                 {/* <TableCell rowSpan={5} /> */}
@@ -246,7 +246,7 @@ export default function SpanningTable({ componentToPrintA4, isReport }) {
               <TableRow>
                 <TableCell colSpan={1} sx={{ p: 0 }}>
                   <Grid sx={{ pl: 15, fontSize: '12px' }}>
-                    3. NP = สินค้าที่ได้รับการยกเว้นภาศีมูลค่าเพิ่มซึ่งจัดรายการส่งเสริมการขาย
+                    3. NP = สินค้าที่ได้รับการยกเว้นภาษีมูลค่าเพิ่มซึ่งจัดรายการส่งเสริมการขาย
                   </Grid>
                 </TableCell>
 

@@ -72,9 +72,9 @@ const UserLayout = ({ children }) => {
       <Box sx={{ mx: 'auto' }}>
         <a target='_blank' rel='noreferrer' href='https://nbadigitalservice.com/'>
           <img
-            width={230}
+            width={210}
             alt='upgrade to premium'
-            src={`https://foodexpress.nbadigitalservice.com/static/illustrations/icon%2001-04.png`}
+            src={`https://nbadigitalservice.com/static/media/logo-01.b392910e.png`}
           />
         </a>
       </Box>

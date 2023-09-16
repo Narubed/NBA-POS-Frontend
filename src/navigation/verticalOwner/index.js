@@ -10,6 +10,7 @@ import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
 import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
 import ArrowDownCircle from 'mdi-material-ui/ArrowDownCircle'
+import ClipboardList from 'mdi-material-ui/ClipboardList'
 
 const navigation = () => {
   return [
@@ -36,7 +37,11 @@ const navigation = () => {
       icon: AccountCogOutline,
       path: '/report/invoice/full'
     },
-
+    {
+      title : 'รายงานการขาย',
+      icon: ClipboardList,
+      path: '/report/sales'
+    },
     {
       sectionTitle: 'จัดการข้อมูลสินค้า'
     },

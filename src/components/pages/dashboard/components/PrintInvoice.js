@@ -205,7 +205,7 @@ export default function PrintInvoice({ componentToPrint, isReport }) {
           )}
 
           <div style={{ textAlign: 'center', borderBottom: '1px solid black' }}>
-            <p style={{ fontSize: '10px', margenTop: '20px' }}>N = สินค้าที่ได้รับการยกเว้นภาศีมูลค่าเพิ่ม</p>
+            <p style={{ fontSize: '10px', margenTop: '20px' }}>N = สินค้าที่ได้รับการยกเว้นภาษีมูลค่าเพิ่ม</p>
             <p className='centered'>
               ขอบคุณที่ใช้บริการ !
               <br />

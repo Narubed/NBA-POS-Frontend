@@ -71,8 +71,8 @@ function index(props) {
           <Box sx={{ p: 4, borderRadius: '10px', height: '100%' }}>
             {' '}
             <img
-              src='https://nba-pos.nbadigitalservice.com/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpos.ec8fa60a.png&w=64&q=75'
-              alt='https://nba-pos.nbadigitalservice.com/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fpos.ec8fa60a.png&w=64&q=75'
+              src='https://nbadigitalservice.com/static/media/NBA-POS.479f39a7.png'
+              alt='https://nbadigitalservice.com/static/media/NBA-POS.479f39a7.png'
               width='120px'
             />
           </Box>
@@ -155,7 +155,7 @@ function index(props) {
           </div>
         </Grid>
       </Box>
-
+              
       {/* <Box
         className='upgrade-to-pro-button mui-fixed'
         sx={{ left: theme => theme.spacing(0), bottom: theme => theme.spacing(10), zIndex: 11, position: 'fixed', bgcolor:'red', width: "50%" }}

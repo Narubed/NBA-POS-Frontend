@@ -53,7 +53,7 @@ const CustomerDisplay = () => {
       .get(`${process.env.NEXT_PUBLIC_POS_ADMIN_BACKEND}/advert`)
       .then(json => setAdvert(json.data.data.advert_images))
   }
-
+  console.log(isAdvert)
   if (!session) return <Main signIn={signIn} />
 
   return (
